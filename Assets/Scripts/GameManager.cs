@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
     public static long GetGold() {return Instance.gold;}
     public static long GetBeliver() {return Instance.beliver;}
     // 신도 수 증가 함수
-    void IncreaseBeliver()
+    public void IncreaseBeliver()
     {
         // 증가 값 설정해야 됨
         beliver++;
@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
         SaveData();
     }
     // 재화 증가 함수
-    void IncreaseGold(long amount)
+    public void IncreaseGold(long amount)
     {
         // 매개 변수로 받은 양 만큼 재화 증가
         gold+= amount;
