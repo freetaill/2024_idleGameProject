@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     // 변수
+
+    //GamaManager 인스턴스
+    private static GameManager _instance;
     public long gold;
     public long beliver;
 
@@ -16,6 +19,39 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI beliverText;
 
     // 함수
+    
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<GameManager>();
+
+                if (_instance == null)
+                {
+                    GameObject go = new GameObject("GameManager");
+                    _instance = go.AddComponent<GameManager>();
+                }
+            }
+            return _instance;
+        }
+    }
+
+    void Awake()
+    {
+        // 싱글톤 패턴 유지 -> 씬 전환 유지
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
 
     void Start()
     {
@@ -26,11 +62,6 @@ public class GameManager : MonoBehaviour
         //초기 가시화 설정
         UpgradePanel.SetActive(false);
 
-    }
-    void Update()
-    {
-        //데이터 저장
-        SaveData();
     }
     // 화면에 표시되는 재화, 인구수 설정 함수
     void SetUIText()
@@ -55,12 +86,16 @@ public class GameManager : MonoBehaviour
     {
         UpgradePanel.SetActive(!UpgradePanel.activeSelf);
     }
+    // 현재 재화 수 반환 함수
+    public static long GetGold() {return Instance.gold;}
+    public static long GetBeliver() {return Instance.beliver;}
     // 신도 수 증가 함수
     void IncreaseBeliver()
     {
         // 증가 값 설정해야 됨
         beliver++;
         SetUIText();
+        SaveData();
     }
     // 재화 증가 함수
     void IncreaseGold(long amount)
@@ -68,5 +103,6 @@ public class GameManager : MonoBehaviour
         // 매개 변수로 받은 양 만큼 재화 증가
         gold+= amount;
         SetUIText();
+        SaveData();
     }
 }
