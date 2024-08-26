@@ -173,46 +173,46 @@ public class GameManager : MonoBehaviour
 
     //재화 수 증가 함수
 
-    public long AddGold(long amount) {return Instance.gold+=amount;SetUIText();}
-    public long AddBeliver(long amount) {return Instance.beliver+=amount;SetUIText();}
-    public long AddRock(long amount) {return Instance.rock+=amount;SetUIText();}
-    public long AddTree(long amount){return Instance.tree+=amount;SetUIText();}
-    public long AddBread(long amount){return Instance.bread+=amount;SetUIText();}
-    public long AddMissionary(long amount) {return Instance.missionary+=amount;SetUIText();}
-    public long AddFanatic(long amount) {return Instance.fanatic+=amount;SetUIText();}
-    public long AddCardinal(long amount){return Instance.cardinal+=amount;SetUIText();}
-    public long AddAdult(long amount){return Instance.adult+=amount;SetUIText();}
-    public long AddDragoon(long amount) {return Instance.dragoon+=amount;SetUIText();}
-    public long AddHut(long amount) {return Instance.hut+=amount;SetUIText();}
-    public long AddChurch2(long amount){return Instance.church2+=amount;SetUIText();}
-    public long AddChurch3(long amount){return Instance.church3+=amount;SetUIText();}
-    public long AddZeolite1(long amount) {return Instance.zeolite1+=amount;SetUIText();}
-    public long AddZeolite2(long amount) {return Instance.zeolite2+=amount;SetUIText();}
-    public long AddZeolite3(long amount){return Instance.zeolite3+=amount;SetUIText();}
-    public long AddCity1(long amount){return Instance.city1+=amount;SetUIText();}
-    public long AddCity2(long amount){return Instance.city2+=amount;SetUIText();}
-    public long AddCity3(long amount){return Instance.city3+=amount;SetUIText();}
+    public long AddGold(long amount) { Instance.gold+=amount;SetUIText(); return Instance.gold; }
+    public long AddBeliver(long amount) { Instance.beliver+=amount;SetUIText(); return Instance.beliver; }
+    public long AddRock(long amount) { Instance.rock+=amount;SetUIText(); return Instance.rock; }
+    public long AddTree(long amount){ Instance.tree+=amount;SetUIText(); return Instance.tree; }
+    public long AddBread(long amount){ Instance.bread+=amount;SetUIText(); return Instance.bread; }
+    public long AddMissionary(long amount) { Instance.missionary+=amount;SetUIText(); return Instance.missionary; }
+    public long AddFanatic(long amount) { Instance.fanatic+=amount;SetUIText(); return Instance.fanatic; }
+    public long AddCardinal(long amount){ Instance.cardinal+=amount;SetUIText(); return Instance.cardinal; }
+    public long AddAdult(long amount){ Instance.adult+=amount;SetUIText(); return Instance.adult; }
+    public long AddDragoon(long amount) { Instance.dragoon+=amount;SetUIText(); return Instance.dragoon; }
+    public long AddHut(long amount) { Instance.hut+=amount;SetUIText(); return Instance.hut; }
+    public long AddChurch2(long amount){ Instance.church2+=amount;SetUIText(); return Instance.church2; }
+    public long AddChurch3(long amount){ Instance.church3+=amount;SetUIText(); return Instance.church3; }
+    public long AddZeolite1(long amount) { Instance.zeolite1+=amount;SetUIText(); return Instance.zeolite1; }
+    public long AddZeolite2(long amount) { Instance.zeolite2+=amount;SetUIText(); return Instance.zeolite2; }
+    public long AddZeolite3(long amount){ Instance.zeolite3+=amount;SetUIText(); return Instance.zeolite3; }
+    public long AddCity1(long amount){ Instance.city1+=amount;SetUIText(); return Instance.city1; }
+    public long AddCity2(long amount){ Instance.city2+=amount;SetUIText(); return Instance.city2; }
+    public long AddCity3(long amount){ Instance.city3+=amount;SetUIText(); return Instance.city3; }
 
     //재화 수 감소 함수
-    public long SubGold(long amount) {return Instance.gold-=amount;SetUIText();}
-    public long SubBeliver(long amount) {return Instance.beliver-=amount;SetUIText();}
-    public long SubRock(long amount) {return Instance.rock-=amount;SetUIText();}
-    public long SubTree(long amount){return Instance.tree-=amount;SetUIText();}
-    public long SubBread(long amount){return Instance.bread-=amount;SetUIText();}
-    public long SubMissionary(long amount) {return Instance.missionary-=amount;SetUIText();}
-    public long SubFanatic(long amount) {return Instance.fanatic-=amount;SetUIText();}
-    public long SubCardinal(long amount){return Instance.cardinal-=amount;SetUIText();}
-    public long SubAdult(long amount){return Instance.adult-=amount;SetUIText();}
-    public long SubDragoon(long amount) {return Instance.dragoon-=amount;SetUIText();}
-    public long SubHut(long amount) {return Instance.hut-=amount;SetUIText();}
-    public long SubChurch2(long amount){return Instance.church2-=amount;SetUIText();}
-    public long SubChurch3(long amount){return Instance.church3-=amount;SetUIText();}
-    public long SubZeolite1(long amount) {return Instance.zeolite1-=amount;SetUIText();}
-    public long SubZeolite2(long amount) {return Instance.zeolite2-=amount;SetUIText();}
-    public long SubZeolite3(long amount){return Instance.zeolite3-=amount;SetUIText();}
-    public long SubCity1(long amount){return Instance.city1-=amount;SetUIText();}
-    public long SubCity2(long amount){return Instance.city2-=amount;SetUIText();}
-    public long SubCity3(long amount){return Instance.city3-=amount;SetUIText();}
+    public long SubGold(long amount) { Instance.gold-=amount;SetUIText(); return Instance.gold; }
+    public long SubBeliver(long amount) { Instance.beliver-=amount;SetUIText(); return Instance.beliver; }
+    public long SubRock(long amount) { Instance.rock-=amount;SetUIText(); return Instance.rock; }
+    public long SubTree(long amount){ Instance.tree-=amount;SetUIText(); return Instance.tree; }
+    public long SubBread(long amount){ Instance.bread-=amount;SetUIText(); return Instance.bread; }
+    public long SubMissionary(long amount) { Instance.missionary-=amount;SetUIText(); return Instance.missionary; }
+    public long SubFanatic(long amount) { Instance.fanatic-=amount;SetUIText(); return Instance.fanatic; }
+    public long SubCardinal(long amount){ Instance.cardinal-=amount;SetUIText(); return Instance.cardinal; }
+    public long SubAdult(long amount){ Instance.adult-=amount;SetUIText(); return Instance.adult; }
+    public long SubDragoon(long amount) { Instance.dragoon-=amount;SetUIText(); return Instance.dragoon; }
+    public long SubHut(long amount) { Instance.hut-=amount;SetUIText(); return Instance.hut; }
+    public long SubChurch2(long amount){ Instance.church2-=amount;SetUIText(); return Instance.church2; }
+    public long SubChurch3(long amount){ Instance.church3-=amount;SetUIText(); return Instance.church3; }
+    public long SubZeolite1(long amount) { Instance.zeolite1-=amount;SetUIText(); return Instance.zeolite1; }
+    public long SubZeolite2(long amount) { Instance.zeolite2-=amount;SetUIText(); return Instance.zeolite2; }
+    public long SubZeolite3(long amount){ Instance.zeolite3-=amount;SetUIText(); return Instance.zeolite3; }
+    public long SubCity1(long amount){ Instance.city1-=amount;SetUIText(); return Instance.city1; }
+    public long SubCity2(long amount){ Instance.city2-=amount;SetUIText(); return Instance.city2; }
+    public long SubCity3(long amount){ Instance.city3-=amount;SetUIText(); return Instance.city3; }
 
 
     //버튼 클릭 재화 함수
