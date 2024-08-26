@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CameraMoveControl : MonoBehaviour
 {
-    public Camera camera;
+    public new Camera camera;
     public float cameraMoveRange_x = 6.0f; // x축 이동 범위
 
     public float dragSpeed = 2.0f; // 마우스 드래그 속도 조정

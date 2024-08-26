@@ -10,10 +10,11 @@ public class UpgradeManager : MonoBehaviour
     public GameObject upgradePanel1;
     public GameObject upgradePanel2;
     public GameObject upgradePanel3;
-    public GameObject upgradePanel4;
+    public GameObject configPanel;
 
     // 현재 활성화된 패널을 추적하는 변수
-    private GameObject activePanel;
+    private GameObject activeUpgradePanel;
+    private GameObject activeConfigPanel;
 
     // 모든 패널을 비활성화
     private void DeactivateAllPanels()
@@ -21,17 +22,34 @@ public class UpgradeManager : MonoBehaviour
         upgradePanel1.SetActive(false);
         upgradePanel2.SetActive(false);
         upgradePanel3.SetActive(false);
-        upgradePanel4.SetActive(false);
+    }
+    
+    // 설정 패널 열기 또는 닫기
+    public void ToggleConfigPanel(GameObject panel)
+    {
+        if (activeConfigPanel == panel)
+        {
+            configPanel.SetActive(false);
+            activeConfigPanel = null; // 아무 패널도 활성화되지 않도록 설정
+        }
+        else
+        {
+            configPanel.SetActive(false);
+
+            // 클릭된 패널 활성화
+            panel.SetActive(true);
+            activeConfigPanel = panel; // 현재 활성화된 패널로 설정
+        }
     }
 
     // 업그레이드 패널 열기 또는 닫기
     public void ToggleUpgradePanel(GameObject panel)
     {
-        if (activePanel == panel)
+        if (activeUpgradePanel == panel)
         {
             // 현재 활성화된 패널과 클릭된 패널이 같다면, 패널 닫기
             DeactivateAllPanels();
-            activePanel = null; // 아무 패널도 활성화되지 않도록 설정
+            activeUpgradePanel = null; // 아무 패널도 활성화되지 않도록 설정
         }
         else
         {
@@ -40,7 +58,7 @@ public class UpgradeManager : MonoBehaviour
 
             // 클릭된 패널 활성화
             panel.SetActive(true);
-            activePanel = panel; // 현재 활성화된 패널로 설정
+            activeUpgradePanel = panel; // 현재 활성화된 패널로 설정
         }
     }
 
@@ -62,9 +80,4 @@ public class UpgradeManager : MonoBehaviour
         ToggleUpgradePanel(upgradePanel3);
     }
 
-    // 업그레이드 패널 4 토글
-    public void ToggleUpgradePanel4()
-    {
-        ToggleUpgradePanel(upgradePanel4);
-    }
 }
