@@ -10,6 +10,7 @@ public class UpgradeManager : MonoBehaviour
     public GameObject upgradePanel1;
     public GameObject upgradePanel2;
     public GameObject upgradePanel3;
+    public GameObject upgradePanel4;
     public GameObject configPanel;
 
     // 현재 활성화된 패널을 추적하는 변수
@@ -22,6 +23,7 @@ public class UpgradeManager : MonoBehaviour
         upgradePanel1.SetActive(false);
         upgradePanel2.SetActive(false);
         upgradePanel3.SetActive(false);
+        upgradePanel4.SetActive(false);
     }
     
     // 설정 패널 열기 또는 닫기
@@ -78,6 +80,12 @@ public class UpgradeManager : MonoBehaviour
     public void ToggleUpgradePanel3()
     {
         ToggleUpgradePanel(upgradePanel3);
+    }
+
+    // 업그레이드 패널 4 토글
+    public void ToggleUpgradePanel4()
+    {
+        ToggleUpgradePanel(upgradePanel4);
     }
 
 }
