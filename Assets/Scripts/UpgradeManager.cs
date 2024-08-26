@@ -6,57 +6,65 @@ using UnityEngine.UI;
 
 public class UpgradeManager : MonoBehaviour
 {
-    // ¾÷±×·¹ÀÌµå ÆĞ³Îµé
+    // ì—…ê·¸ë ˆì´ë“œ íŒ¨ë„ë“¤
     public GameObject upgradePanel1;
     public GameObject upgradePanel2;
     public GameObject upgradePanel3;
+    public GameObject upgradePanel4;
 
-    // ÇöÀç È°¼ºÈ­µÈ ÆĞ³ÎÀ» ÃßÀûÇÏ´Â º¯¼ö
+    // í˜„ì¬ í™œì„±í™”ëœ íŒ¨ë„ì„ ì¶”ì í•˜ëŠ” ë³€ìˆ˜
     private GameObject activePanel;
 
-    // ¸ğµç ÆĞ³ÎÀ» ºñÈ°¼ºÈ­
+    // ëª¨ë“  íŒ¨ë„ì„ ë¹„í™œì„±í™”
     private void DeactivateAllPanels()
     {
         upgradePanel1.SetActive(false);
         upgradePanel2.SetActive(false);
         upgradePanel3.SetActive(false);
+        upgradePanel4.SetActive(false);
     }
 
-    // ¾÷±×·¹ÀÌµå ÆĞ³Î ¿­±â ¶Ç´Â ´İ±â
+    // ì—…ê·¸ë ˆì´ë“œ íŒ¨ë„ ì—´ê¸° ë˜ëŠ” ë‹«ê¸°
     public void ToggleUpgradePanel(GameObject panel)
     {
         if (activePanel == panel)
         {
-            // ÇöÀç È°¼ºÈ­µÈ ÆĞ³Î°ú Å¬¸¯µÈ ÆĞ³ÎÀÌ °°´Ù¸é, ÆĞ³Î ´İ±â
+            // í˜„ì¬ í™œì„±í™”ëœ íŒ¨ë„ê³¼ í´ë¦­ëœ íŒ¨ë„ì´ ê°™ë‹¤ë©´, íŒ¨ë„ ë‹«ê¸°
             DeactivateAllPanels();
-            activePanel = null; // ¾Æ¹« ÆĞ³Îµµ È°¼ºÈ­µÇÁö ¾Êµµ·Ï ¼³Á¤
+            activePanel = null; // ì•„ë¬´ íŒ¨ë„ë„ í™œì„±í™”ë˜ì§€ ì•Šë„ë¡ ì„¤ì •
         }
         else
         {
-            // ÇöÀç È°¼ºÈ­µÈ ÆĞ³ÎÀ» ºñÈ°¼ºÈ­
+            // í˜„ì¬ í™œì„±í™”ëœ íŒ¨ë„ì„ ë¹„í™œì„±í™”
             DeactivateAllPanels();
 
-            // Å¬¸¯µÈ ÆĞ³Î È°¼ºÈ­
+            // í´ë¦­ëœ íŒ¨ë„ í™œì„±í™”
             panel.SetActive(true);
-            activePanel = panel; // ÇöÀç È°¼ºÈ­µÈ ÆĞ³Î·Î ¼³Á¤
+            activePanel = panel; // í˜„ì¬ í™œì„±í™”ëœ íŒ¨ë„ë¡œ ì„¤ì •
         }
     }
 
-    // ¾÷±×·¹ÀÌµå ÆĞ³Î 1 Åä±Û
+    // ì—…ê·¸ë ˆì´ë“œ íŒ¨ë„ 1 í† ê¸€
     public void ToggleUpgradePanel1()
     {
         ToggleUpgradePanel(upgradePanel1);
     }
 
-    // ¾÷±×·¹ÀÌµå ÆĞ³Î 2 Åä±Û
+    // ì—…ê·¸ë ˆì´ë“œ íŒ¨ë„ 2 í† ê¸€
     public void ToggleUpgradePanel2()
     {
         ToggleUpgradePanel(upgradePanel2);
     }
 
-    // ¾÷±×·¹ÀÌµå ÆĞ³Î 3 Åä±Û
+    // ì—…ê·¸ë ˆì´ë“œ íŒ¨ë„ 3 í† ê¸€
     public void ToggleUpgradePanel3()
     {
         ToggleUpgradePanel(upgradePanel3);
+    }
+
+    // ì—…ê·¸ë ˆì´ë“œ íŒ¨ë„ 4 í† ê¸€
+    public void ToggleUpgradePanel4()
+    {
+        ToggleUpgradePanel(upgradePanel4);
     }
 }
