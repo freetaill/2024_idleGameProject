@@ -8,7 +8,7 @@ public class SpecialEvent : MonoBehaviour
 {
     public GameObject specialPreach;
     GameObject SpecialPreach;
-    public Camera camera;
+    new Camera camera;
 
     float lastClickTime = 0f;
     float DoubleClickDelay = 0.3f;

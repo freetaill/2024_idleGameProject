@@ -78,7 +78,7 @@ public class CameraMoveControl : MonoBehaviour
         while (elapsedTime < 3.0f)
         {
             camera.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / 1.0f);
-            elapsedTime += Time.deltaTime * 5.0f;
+            elapsedTime += Time.deltaTime * 8.0f;
             yield return null;
         }
 
