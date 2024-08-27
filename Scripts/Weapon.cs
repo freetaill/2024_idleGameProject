@@ -62,7 +62,6 @@ public class Weapon : MonoBehaviour
         //Stop일 때 누르면 움직임 스탑
         else if(buttonState == 1)
         {
-            Debug.Log("1인데 눌림");
             loop = false;
             timer = 0f;
             buttonState = 0;
@@ -77,6 +76,7 @@ public class Weapon : MonoBehaviour
         image.enabled = false;
         enabled = false;
         buttonState = 0;
+        WeaponControlText.text = "Get";
     }
     public void OnClickOpenButton()
     {
@@ -86,11 +86,11 @@ public class Weapon : MonoBehaviour
             image.sprite = sprites[currentFrame];
         enabled = true;
         buttonState = 0;
+        WeaponControlText.text = "Get";
     }
 
     void Update()
     {
-        Debug.Log("버튼 상태 : " + buttonState);
             // 크기 증가 및 감소 처리
         if (isScalingUp)
         {
