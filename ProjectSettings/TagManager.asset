@@ -10,6 +10,7 @@ TagManager:
   - PreachZone
   - Citizen
   - TurnedCitizen
+  - SpecialPreach
   layers:
   - Default
   - TransparentFX

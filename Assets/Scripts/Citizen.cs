@@ -18,8 +18,8 @@ public class Citizen : MonoBehaviour
     void Start()
     {
         // 위치 초기 설정
-        if (transform.position.x < 0) { dir = new Vector3(1, 0, 0); }
-        else { dir = new Vector3(-1, 0, 0); }
+        if (transform.position.x < 0) { dir = new Vector3(1, 0, 0); gameObject.transform.rotation = Quaternion.Euler(0, 0, 0); }
+        else { dir = new Vector3(-1, 0, 0); gameObject.transform.rotation = Quaternion.Euler(0, 180, 0); }
         transform.position += dir * 0.4f + new Vector3(0, -0.194f, 0);
     }
 
@@ -51,10 +51,12 @@ public class Citizen : MonoBehaviour
         if (Temple.transform.position.x - transform.position.x > 0)
         {
             dir = new Vector3(1, 0, 0);
+            gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         else
         {
             dir = new Vector3(-1, 0, 0);
+            gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
     }
 
@@ -64,13 +66,23 @@ public class Citizen : MonoBehaviour
         checkBelieverFlag = true;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("SpecialPreach"))
+        {
+            TurnedCitizen();
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         // 신도로 전향된 상태로 신전의 중앙에 도착하면 오브젝트 파괴 밑 신도 수 증가
         if (collision.CompareTag("MainTemple") && gameObject.CompareTag("TurnedCitizen") && Mathf.Abs(transform.position.x) < 0.1f)
         {
-            GameManager.Instance.IncreaseBeliver();
+            GameManager.Instance.AddBeliver(1);
             Destroy(gameObject);
         }
     }
+
+
 }

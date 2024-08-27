@@ -17,6 +17,13 @@ public class UpgradeManager : MonoBehaviour
     private GameObject activeUpgradePanel;
     private GameObject activeConfigPanel;
 
+    GameObject CameraMove;
+
+    private void Start()
+    {
+         
+    }
+
     // 모든 패널을 비활성화
     private void DeactivateAllPanels()
     {
@@ -52,6 +59,8 @@ public class UpgradeManager : MonoBehaviour
             // 현재 활성화된 패널과 클릭된 패널이 같다면, 패널 닫기
             DeactivateAllPanels();
             activeUpgradePanel = null; // 아무 패널도 활성화되지 않도록 설정
+
+            gameObject.GetComponent<CameraMoveControl>().k(false);
         }
         else
         {
@@ -61,6 +70,7 @@ public class UpgradeManager : MonoBehaviour
             // 클릭된 패널 활성화
             panel.SetActive(true);
             activeUpgradePanel = panel; // 현재 활성화된 패널로 설정
+            gameObject.GetComponent<CameraMoveControl>().k(true);
         }
     }
 

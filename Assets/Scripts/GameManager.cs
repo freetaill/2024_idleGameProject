@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
     public GameObject ResourcePanel;
     public GameObject MissionaryPanel;
     public GameObject BuildingPanel;
+    public GameObject WeaponPanel;
 
     // 함수
     
@@ -137,18 +138,28 @@ public class GameManager : MonoBehaviour
         ResourcePanel.SetActive(true);
         MissionaryPanel.SetActive(false);
         BuildingPanel.SetActive(false);
+        WeaponPanel.SetActive(false);
     }
     public void Missionary_Click()
     {
         ResourcePanel.SetActive(false);
         MissionaryPanel.SetActive(true);
         BuildingPanel.SetActive(false);
+        WeaponPanel.SetActive(false);
     }
     public void Building_Click()
     {
         ResourcePanel.SetActive(false);
         MissionaryPanel.SetActive(false);
         BuildingPanel.SetActive(true);
+        WeaponPanel.SetActive(false);
+    }
+    public void Weapon_Click()
+    {
+        ResourcePanel.SetActive(false);
+        MissionaryPanel.SetActive(false);
+        BuildingPanel.SetActive(false);
+        WeaponPanel.SetActive(true);
     }
     // 현재 재화 수 반환 함수
     public long GetGold() {return Instance.gold;}
