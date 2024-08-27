@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: 8984fca302a359d4595a7cdd55c57fc9
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Painting With Chocolate
+  fontNames:
+  - Painting With Chocolate
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 217464
+  packageName: Casual RPG&MMO UI Pack
+  packageVersion: 1.0
+  assetPath: Assets/Casual RPG&MMO UI Pack/Casual RPG&MMO UI Pack Resources/Fonts/Painting_With_Chocolate.ttf
+  uploadId: 490914

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 922a880e80792d34a8a52caca3c81fda
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 217464
+  packageName: Casual RPG&MMO UI Pack
+  packageVersion: 1.0
+  assetPath: Assets/Casual RPG&MMO UI Pack/Casual RPG&MMO UI Pack Resources/Scripts/PressedBtn_Size.cs
+  uploadId: 490914

@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: 00b94f318a577c14abd527e014fa13e2
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Riffic Free
+  fontNames:
+  - Riffic Free
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 217464
+  packageName: Casual RPG&MMO UI Pack
+  packageVersion: 1.0
+  assetPath: Assets/Casual RPG&MMO UI Pack/Casual RPG&MMO UI Pack Resources/Fonts/RifficFree-Bold.ttf
+  uploadId: 490914
