@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 011246bb8bbc0b448993a1ea584e62a6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 217464
+  packageName: Casual RPG&MMO UI Pack
+  packageVersion: 1.0
+  assetPath: Assets/Casual RPG&MMO UI Pack/Casual RPG&MMO UI Pack Resources/Scripts/SliderValuePass.cs
+  uploadId: 490914
