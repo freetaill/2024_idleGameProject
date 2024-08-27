@@ -13,6 +13,7 @@ public class CameraMoveControl : MonoBehaviour
     private bool isDragging = false;
 
     private bool isUpgradeArea = false;
+    private bool isUntillUpgradeArea = true;
 
     void Update()
     {
@@ -55,7 +56,7 @@ public class CameraMoveControl : MonoBehaviour
                 // 0에서 -1.2f로 이동하는 코루틴 시작
                 StartCoroutine(MoveCamera(-1.2f));
             }
-            else if (camera.transform.position.y == -1.2f)
+            else if (camera.transform.position.y == -1.2f && !isUntillUpgradeArea)
             {
                 // -1.2f에서 0으로 이동하는 코루틴 시작
                 StartCoroutine(MoveCamera(0.0f));
@@ -77,7 +78,7 @@ public class CameraMoveControl : MonoBehaviour
         while (elapsedTime < 3.0f)
         {
             camera.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / 1.0f);
-            elapsedTime += Time.deltaTime * 5.0f;
+            elapsedTime += Time.deltaTime * 8.0f;
             yield return null;
         }
 
@@ -86,8 +87,9 @@ public class CameraMoveControl : MonoBehaviour
         isUpgradeArea = false;
     }
 
-    public void k()
+    public void k(bool value)
     {
         isUpgradeArea = true;
+        isUntillUpgradeArea = value;
     }
 }
