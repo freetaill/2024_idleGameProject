@@ -119,6 +119,92 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &135532731
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 135532732}
+  - component: {fileID: 135532733}
+  m_Layer: 0
+  m_Name: Square
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &135532732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135532731}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.24, y: 0.313, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1572945746}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &135532733
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135532731}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 4
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &154212908
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &154212909
 RectTransform:
   m_ObjectHideFlags: 0
@@ -201,7 +287,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 154212911}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 292851554}
+        m_TargetAssemblyTypeName: CameraMoveControl, Assembly-CSharp
+        m_MethodName: k
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &154212911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,8 +419,8 @@ Transform:
   m_GameObject: {fileID: 166076297}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.85, z: 0}
-  m_LocalScale: {x: 19, y: 4.3, z: 1}
+  m_LocalPosition: {x: 0, y: -5.3, z: 0}
+  m_LocalScale: {x: 36, y: 9.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -598,6 +696,8 @@ GameObject:
   - component: {fileID: 292851553}
   - component: {fileID: 292851552}
   - component: {fileID: 292851551}
+  - component: {fileID: 292851554}
+  - component: {fileID: 292851555}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -655,6 +755,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &292851554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292851550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d305d959dfb014fa8c558abd3319e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 1724090403}
+  cameraMoveRange_x: 6
+  dragSpeed: 2
+--- !u!114 &292851555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292851550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e7970558021d4446bd79b782c2917f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  specialPreach: {fileID: 2076916601340391264, guid: 0c6e835b7bbfc9d4da1dfe7ca4ec131e, type: 3}
+  camera: {fileID: 0}
 --- !u!1 &299681597
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,8 +1109,8 @@ Canvas:
   m_GameObject: {fileID: 436590084}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1724090403}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -992,7 +1121,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!224 &436590088
 RectTransform:
@@ -1321,11 +1450,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb4a4bf472dc75f45afc75a4113d7c38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 0
   beliver: 0
-  UpgradePanel: {fileID: 0}
-  goldText: {fileID: 0}
-  beliverText: {fileID: 0}
+  gold: 0
+  tree: 0
+  bread: 0
+  rock: 0
+  missionary: 0
+  fanatic: 0
+  cardinal: 0
+  adult: 0
+  dragoon: 0
+  hut: 0
+  church2: 0
+  church3: 0
+  zeolite1: 0
+  zeolite2: 0
+  zeolite3: 0
+  city1: 0
+  city2: 0
+  city3: 0
+  UpgradeTreeCost: 0
+  UpgradeRockCost: 0
+  UpgradeBreadCost: 0
+  UpgradeMissionaryCost: 0
+  UpgradeFanaticCost: 0
+  UpgradeCardinalCost: 0
+  UpgradeAdultCost: 0
+  UpgradeDragoonCost: 0
+  UpgradeHutCost: 0
+  UpgradeChurch2Cost: 0
+  UpgradeChurch3Cost: 0
+  UpgradeZeolite1Cost: 0
+  UpgradeZeolite2Cost: 0
+  UpgradeZeolite3Cost: 0
+  UpgradeCity1Cost: 0
+  UpgradeCity2Cost: 0
+  UpgradeCity3Cost: 0
+  goldText: {fileID: 437887616}
+  beliverText: {fileID: 212853170}
+  ResourcePanel: {fileID: 0}
+  MissionaryPanel: {fileID: 0}
+  BuildingPanel: {fileID: 0}
 --- !u!4 &697242727
 Transform:
   m_ObjectHideFlags: 0
@@ -2118,7 +2283,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 18, y: 10, z: 1}
+  m_LocalScale: {x: 36, y: 20, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2678,6 +2843,11 @@ MonoBehaviour:
   Citizen: {fileID: 1925845362273527493, guid: 8647ebce190c01a4da5113c9335ab6fa, type: 3}
   population: 0
   Gold: 0
+--- !u!4 &1572945746 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7432126624463479747, guid: 223093d0054e00e4bb562109ea8f65f8, type: 3}
+  m_PrefabInstance: {fileID: 1513000174501608715}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1619251926
 GameObject:
   m_ObjectHideFlags: 0
@@ -2814,6 +2984,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1619251926}
   m_CullTransparentMesh: 1
+--- !u!1 &1675510391
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1675510392}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1675510392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1675510391}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1724090401
 GameObject:
   m_ObjectHideFlags: 0
@@ -3311,7 +3512,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7432126624463479747, guid: 223093d0054e00e4bb562109ea8f65f8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 135532732}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 223093d0054e00e4bb562109ea8f65f8, type: 3}
 --- !u!1660057539 &9223372036854775807
@@ -3328,3 +3532,4 @@ SceneRoots:
   - {fileID: 292851553}
   - {fileID: 697242727}
   - {fileID: 436590088}
+  - {fileID: 1675510392}
