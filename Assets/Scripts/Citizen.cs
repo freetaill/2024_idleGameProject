@@ -69,7 +69,8 @@ public class Citizen : MonoBehaviour
         // 신도로 전향된 상태로 신전의 중앙에 도착하면 오브젝트 파괴 밑 신도 수 증가
         if (collision.CompareTag("MainTemple") && gameObject.CompareTag("TurnedCitizen") && Mathf.Abs(transform.position.x) < 0.1f)
         {
-            GameManager.Instance.IncreaseBeliver();
+           
+            //GameManager.Instance.AddBeliver();
             Destroy(gameObject);
         }
     }

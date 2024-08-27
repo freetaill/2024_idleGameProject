@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a1bf9e29a87805b47a16481276ff7db3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 217464
+  packageName: Casual RPG&MMO UI Pack
+  packageVersion: 1.0
+  assetPath: Assets/Casual RPG&MMO UI Pack/Casual RPG&MMO UI Pack Resources/Scripts/JustRotate.cs
+  uploadId: 490914
