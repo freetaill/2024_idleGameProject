@@ -23,6 +23,7 @@ public class Believer : MonoBehaviour
         // 초기 설정
         dir = new Vector3(1, 0, 0);
         transform.position += new Vector3(0, -0.194f, 0);
+        gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
         Temple = GameObject.FindGameObjectWithTag("MainTemple");
     }
 
@@ -57,8 +58,8 @@ public class Believer : MonoBehaviour
     {
         // 신전과 신도 사이의 거리를 구하여 일정 범위 내에서 활동하도록 하는 함수
         float Templedir = Temple.transform.position.x - transform.position.x;
-        if (Templedir > 2.0f) { dir = new Vector3(1, 0, 0); }
-        else if (Templedir < -2.0f) { dir = new Vector3(-1, 0, 0); }
+        if (Templedir > 2.0f) { dir = new Vector3(1, 0, 0); gameObject.transform.rotation = Quaternion.Euler(0, 180, 0); }
+        else if (Templedir < -2.0f) { dir = new Vector3(-1, 0, 0); gameObject.transform.rotation = Quaternion.Euler(0, 0, 0); }
     }
     
     public void OnTriggerCheckCitizen()
