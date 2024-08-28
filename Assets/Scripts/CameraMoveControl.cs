@@ -20,8 +20,8 @@ public class CameraMoveControl : MonoBehaviour
         // 마우스 휠 입력값을 받아옴
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         // 카메라의 FOV 값을 조정하여 줌 인/아웃
-        camera.orthographicSize += scrollInput * 1.5f;
-        cameraMoveRange_x += scrollInput * 1f;
+        camera.orthographicSize -= scrollInput * 3f;
+        cameraMoveRange_x += scrollInput * 6f;
 
         // FOV 값 제한
         camera.orthographicSize = Mathf.Clamp(camera.orthographicSize, 5f, 8f);
