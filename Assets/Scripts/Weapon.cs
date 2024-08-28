@@ -14,7 +14,7 @@ public class Weapon : MonoBehaviour
     public float scaleDuration = 0.5f; // 크기 변경 시간
     public float scaleBackDuration = 0.5f; // 크기 되돌리기 시간
 
-    private SpriteRenderer spriteRenderer;
+    private Image image;
     private float timer;
     private int currentFrame;
     private float frameDuration;
@@ -35,17 +35,17 @@ public class Weapon : MonoBehaviour
 
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        image = GetComponent<Image>();
         originalScale = transform.localScale; // 처음 객체의 스케일 저장
 
         if (sprites.Length > 0)
         {
-            spriteRenderer.sprite = sprites[0];
+            image.sprite = sprites[0];
             frameDuration = 1f / frameRate;
         }
         buttonState = 0;
         WeaponPanel.SetActive(false);
-        spriteRenderer.enabled = false;
+        image.enabled = true;
     }
 
     public void OnClickWeaponButton()
@@ -57,11 +57,11 @@ public class Weapon : MonoBehaviour
             buttonState = 1;
             loop = true;
             WeaponControlText.text = "Stop";
+            image.enabled = true;
         }
         //Stop일 때 누르면 움직임 스탑
         else if(buttonState == 1)
         {
-            Debug.Log("1인데 눌림");
             loop = false;
             timer = 0f;
             buttonState = 0;
@@ -73,22 +73,24 @@ public class Weapon : MonoBehaviour
     {
         WeaponPanel.SetActive(false);
         loop = false;
-        spriteRenderer.enabled = false;
+        image.enabled = false;
         enabled = false;
         buttonState = 0;
+        WeaponControlText.text = "Get";
     }
     public void OnClickOpenButton()
     {
         WeaponPanel.SetActive(true);
-        spriteRenderer.enabled = true;
-        spriteRenderer.sprite = sprites[currentFrame];
+        image.enabled = true;
+        if (sprites.Length > 0)
+            image.sprite = sprites[currentFrame];
         enabled = true;
         buttonState = 0;
+        WeaponControlText.text = "Get";
     }
 
     void Update()
     {
-        Debug.Log("버튼 상태 : " + buttonState);
             // 크기 증가 및 감소 처리
         if (isScalingUp)
         {
@@ -106,7 +108,7 @@ public class Weapon : MonoBehaviour
             {
                 timer -= frameDuration;
                 currentFrame = (currentFrame + 1) % sprites.Length;
-                spriteRenderer.sprite = sprites[currentFrame];
+                image.sprite = sprites[currentFrame];
             }
         }
     }
