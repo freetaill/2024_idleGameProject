@@ -19,11 +19,6 @@ public class UpgradeManager : MonoBehaviour
 
     GameObject CameraMove;
 
-    private void Start()
-    {
-         
-    }
-
     // 모든 패널을 비활성화
     private void DeactivateAllPanels()
     {
