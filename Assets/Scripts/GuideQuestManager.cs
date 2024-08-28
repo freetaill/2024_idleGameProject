@@ -17,13 +17,13 @@ public class GuideQuestManager : MonoBehaviour
 
     void Start()
     {
-        UpdateQuestStatus(); // 퀘스트 상태를 초기화합니다.
+        UpdateQuestStatus(); // 퀘스트 상태를 초기화
         completionText.gameObject.SetActive(false); // 퀘스트 완료 텍스트를 비활성화
     }
 
     void Update()
     {
-        // 실시간으로 골드 수를 업데이트하여 퀘스트 달성 여부를 확인합니다.
+        // 실시간으로 골드 수를 업데이트하여 퀘스트 달성 여부를 확인
         currentGold = GameManager.Instance.GetGold();
 
         if (currentGold >= questGoals[currentQuestIndex] && !isQuestCompleted)
