@@ -17,6 +17,16 @@ public class CameraMoveControl : MonoBehaviour
 
     void Update()
     {
+        // 마우스 휠 입력값을 받아옴
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        // 카메라의 FOV 값을 조정하여 줌 인/아웃
+        camera.orthographicSize += scrollInput * 1.5f;
+        cameraMoveRange_x += scrollInput * 1f;
+
+        // FOV 값 제한
+        camera.orthographicSize = Mathf.Clamp(camera.orthographicSize, 5f, 8f);
+        cameraMoveRange_x = Mathf.Clamp(cameraMoveRange_x, 4f, 6f);
+
         // 마우스 왼쪽 버튼을 눌렀을 때 드래그 시작
         if (Input.GetMouseButtonDown(0))
         {
@@ -91,5 +101,7 @@ public class CameraMoveControl : MonoBehaviour
     {
         isUpgradeArea = true;
         isUntillUpgradeArea = value;
+
+        RectTransform rectTransform = camera.GetComponent<RectTransform>(); 
     }
 }
