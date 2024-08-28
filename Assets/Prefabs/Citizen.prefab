@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1925845362273527493}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.958515, y: 0.5489689, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -148,6 +148,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+  CitizenImage:
+  - {fileID: 2167858464173641110, guid: 09135eb28cab74d4295263e7c75986c0, type: 3}
+  - {fileID: 5554704596501713522, guid: f96c270cbdf56004b9f623c2b2d1a62e, type: 3}
+  - {fileID: -2012597766528932414, guid: 9a51c10df5a6c7540812aa3816ee314c, type: 3}
+  - {fileID: -5710940995738765502, guid: c24de64503ffbe44e86558e38c289ded, type: 3}
+  - {fileID: -8882905091904858809, guid: 897e227cb21d484408802e06306d1de9, type: 3}
+  - {fileID: 6333960624461003653, guid: e84aeffd0b55fbd4e964d980f4361b2d, type: 3}
 --- !u!50 &1631321455280017880
 Rigidbody2D:
   serializedVersion: 4

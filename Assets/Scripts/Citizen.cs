@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Citizen : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Citizen : MonoBehaviour
     //신도에게 감지 되었는지 여부
     bool checkBelieverFlag = false;
 
+    public Sprite[] CitizenImage;
+
     Vector3 dir;
 
     void Start()
@@ -21,6 +24,8 @@ public class Citizen : MonoBehaviour
         if (transform.position.x < 0) { dir = new Vector3(1, 0, 0); gameObject.transform.rotation = Quaternion.Euler(0, 0, 0); }
         else { dir = new Vector3(-1, 0, 0); gameObject.transform.rotation = Quaternion.Euler(0, 180, 0); }
         transform.position += dir * 0.4f + new Vector3(0, -0.194f, 0);
+        int imageNum = Random.Range(0, CitizenImage.Length);
+        gameObject.GetComponent<SpriteRenderer>().sprite = CitizenImage[imageNum];
     }
 
     // Update is called once per frame
