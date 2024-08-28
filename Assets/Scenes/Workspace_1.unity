@@ -6612,7 +6612,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.7764706, g: 0.9882353, b: 1, a: 1}
   m_FlipX: 0
@@ -17650,7 +17650,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.4117647, g: 0.25490198, b: 0.19607843, a: 1}
   m_FlipX: 0
@@ -21581,6 +21581,10 @@ MonoBehaviour:
   city1: 0
   city2: 0
   city3: 0
+  weapon1: 0
+  weapon2: 0
+  weapon3: 0
+  weapon4: 0
   UpgradeTreeCost: 0
   UpgradeRockCost: 0
   UpgradeBreadCost: 0
@@ -21598,12 +21602,16 @@ MonoBehaviour:
   UpgradeCity1Cost: 0
   UpgradeCity2Cost: 0
   UpgradeCity3Cost: 0
-  goldText: {fileID: 0}
-  beliverText: {fileID: 0}
-  ResourcePanel: {fileID: 0}
-  MissionaryPanel: {fileID: 0}
-  BuildingPanel: {fileID: 0}
-  WeaponPanel: {fileID: 0}
+  UpgradeWeapon1Cost: 0
+  UpgradeWeapon2Cost: 0
+  UpgradeWeapon3Cost: 0
+  UpgradeWeapon4Cost: 0
+  goldText: {fileID: 225191650}
+  beliverText: {fileID: 707166635}
+  ResourcePanel: {fileID: 1911902695}
+  MissionaryPanel: {fileID: 1744165651}
+  BuildingPanel: {fileID: 1089352867}
+  WeaponPanel: {fileID: 102159015}
 --- !u!4 &1913793927
 Transform:
   m_ObjectHideFlags: 0
@@ -21725,7 +21733,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
