@@ -36,6 +36,12 @@ public class GameManager : MonoBehaviour
     public long city1;
     public long city2;
     public long city3;
+
+    //신보
+    public long weapon1;
+    public long weapon2;
+    public long weapon3;
+    public long weapon4;
     
 
     //기준 비용
@@ -63,6 +69,12 @@ public class GameManager : MonoBehaviour
     public long UpgradeCity1Cost;
     public long UpgradeCity2Cost;
     public long UpgradeCity3Cost;
+
+    //신보
+    public long UpgradeWeapon1Cost;
+    public long UpgradeWeapon2Cost;
+    public long UpgradeWeapon3Cost;
+    public long UpgradeWeapon4Cost;
     
     //게임 오브젝트
     public TextMeshProUGUI goldText;
@@ -181,6 +193,10 @@ public class GameManager : MonoBehaviour
     public long GetCity1(){return Instance.city1;}
     public long GetCity2(){return Instance.city2;}
     public long GetCity3(){return Instance.city3;}
+    public long GetWeapon1(){return Instance.weapon1;}
+    public long GetWeapon2(){return Instance.weapon2;}
+    public long GetWeapon3(){return Instance.weapon3;}
+    public long GetWeapon4(){return Instance.weapon4;}
 
     //재화 수 증가 함수
 
@@ -203,6 +219,10 @@ public class GameManager : MonoBehaviour
     public long AddCity1(long amount){ Instance.city1+=amount;SetUIText(); return Instance.city1; }
     public long AddCity2(long amount){ Instance.city2+=amount;SetUIText(); return Instance.city2; }
     public long AddCity3(long amount){ Instance.city3+=amount;SetUIText(); return Instance.city3; }
+    public long AddWeapon1(long amount){ Instance.weapon1+=amount;SetUIText(); return Instance.weapon1; }
+    public long AddWeapon2(long amount){ Instance.weapon2+=amount;SetUIText(); return Instance.weapon2; }
+    public long AddWeapon3(long amount){ Instance.weapon3+=amount;SetUIText(); return Instance.weapon3; }
+    public long AddWeapon4(long amount){ Instance.weapon4+=amount;SetUIText(); return Instance.weapon4; }
 
     //재화 수 감소 함수
     public long SubGold(long amount) { Instance.gold-=amount;SetUIText(); return Instance.gold; }
@@ -224,6 +244,10 @@ public class GameManager : MonoBehaviour
     public long SubCity1(long amount){ Instance.city1-=amount;SetUIText(); return Instance.city1; }
     public long SubCity2(long amount){ Instance.city2-=amount;SetUIText(); return Instance.city2; }
     public long SubCity3(long amount){ Instance.city3-=amount;SetUIText(); return Instance.city3; }
+    public long SubWeapon1(long amount){ Instance.weapon1-=amount;SetUIText(); return Instance.weapon1; }
+    public long SubWeapon2(long amount){ Instance.weapon1-=amount;SetUIText(); return Instance.weapon2; }
+    public long SubWeapon3(long amount){ Instance.weapon1-=amount;SetUIText(); return Instance.weapon3; }
+    public long SubWeapon4(long amount){ Instance.weapon1-=amount;SetUIText(); return Instance.weapon4; }
 
 
     //버튼 클릭 재화 함수
@@ -332,48 +356,76 @@ public class GameManager : MonoBehaviour
         if (GetGold() <= UpgradeChurch3Cost)
             Debug.Log("골드 부족");
         else
-            AddGold(UpgradeChurch3Cost);
+            SubGold(UpgradeChurch3Cost);
     }
     public void OnButtonClickZeolite1()
     {
         if (GetGold() <= UpgradeZeolite1Cost)
             Debug.Log("골드 부족");
         else
-            AddGold(UpgradeZeolite1Cost);
+            SubGold(UpgradeZeolite1Cost);
     }
     public void OnButtonClickZeolite2()
     {
         if (GetGold() <= UpgradeZeolite2Cost)
             Debug.Log("골드 부족");
         else
-            AddGold(UpgradeZeolite2Cost);
+            SubGold(UpgradeZeolite2Cost);
     }
     public void OnButtonClickZeolite3()
     {
         if (GetGold() <= UpgradeZeolite3Cost)
             Debug.Log("골드 부족");
         else
-            AddGold(UpgradeZeolite3Cost);
+            SubGold(UpgradeZeolite3Cost);
     }
     public void OnButtonClickCity1()
     {
         if (GetGold() <= UpgradeCity1Cost)
             Debug.Log("골드 부족");
         else
-            AddGold(UpgradeCity1Cost);
+            SubGold(UpgradeCity1Cost);
     }
     public void OnButtonClickCity2()
     {
         if (GetGold() <= UpgradeCity2Cost)
             Debug.Log("골드 부족");
         else
-            AddGold(UpgradeCity2Cost);
+            SubGold(UpgradeCity2Cost);
     }
     public void OnButtonClickCity3()
     {
         if (GetGold() <= UpgradeCity3Cost)
             Debug.Log("골드 부족");
         else
-            AddGold(UpgradeCity3Cost);
+            SubGold(UpgradeCity3Cost);
+    }
+    public void OnButtonClickWeapon1()
+    {
+        if (GetGold() <= UpgradeWeapon1Cost)
+            Debug.Log("골드 부족");
+        else
+            SubGold(UpgradeWeapon1Cost);
+    }
+    public void OnButtonClickWeapon2()
+    {
+        if (GetGold() <= UpgradeWeapon2Cost)
+            Debug.Log("골드 부족");
+        else
+            SubGold(UpgradeWeapon2Cost);
+    }
+    public void OnButtonClickWeapon3()
+    {
+        if (GetGold() <= UpgradeWeapon3Cost)
+            Debug.Log("골드 부족");
+        else
+            SubGold(UpgradeWeapon3Cost);
+    }
+    public void OnButtonClickWeapon4()
+    {
+        if (GetGold() <= UpgradeWeapon4Cost)
+            Debug.Log("골드 부족");
+        else
+            SubGold(UpgradeWeapon4Cost);
     }
 }
