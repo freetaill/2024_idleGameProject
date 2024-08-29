@@ -516,6 +516,7 @@ GameObject:
   - component: {fileID: 67163373}
   - component: {fileID: 67163372}
   - component: {fileID: 67163371}
+  - component: {fileID: 67163374}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -573,6 +574,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &67163374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67163370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac53a6fa71f318a4ebf454618c68dc42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
+  cameraMoveRange_x: 6
+  specialPreach: {fileID: 2076916601340391264, guid: 0c6e835b7bbfc9d4da1dfe7ca4ec131e, type: 3}
+  Ingredients: {fileID: 2233177166143358064, guid: 6f88b346b679f0b49b43fe859507b850, type: 3}
+  coinimage: {fileID: 1166725342}
 --- !u!1 &68903314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1161,7 +1179,6 @@ GameObject:
   m_Component:
   - component: {fileID: 126244481}
   - component: {fileID: 126244480}
-  - component: {fileID: 126244479}
   - component: {fileID: 126244478}
   m_Layer: 0
   m_Name: UpgradeManager
@@ -1190,21 +1207,6 @@ MonoBehaviour:
   enlargedWidth: 288
   normalWidth: 180
   shrinkedWidth: 144
---- !u!114 &126244479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 126244477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67d305d959dfb014fa8c558abd3319e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 519420031}
-  cameraMoveRange_x: 6
-  dragSpeed: 2
 --- !u!114 &126244480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1226,6 +1228,9 @@ MonoBehaviour:
   animationDuration: 0.1
   targetPositionY: 310
   hiddenPositionY: -139
+  targetPositionYPanel4: 500
+  hiddenPositionYPanel4: -139
+  camera: {fileID: 519420031}
 --- !u!4 &126244481
 Transform:
   m_ObjectHideFlags: 0
@@ -7806,7 +7811,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 1.855, y: 1.375}
     newSize: {x: 7.03, y: 8.47}
     adaptiveTilingThreshold: 0.5
@@ -7878,7 +7883,7 @@ Transform:
   m_GameObject: {fileID: 617096787}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.74, z: 0}
+  m_LocalPosition: {x: 0, y: -0.73, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -16544,7 +16549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -17727,7 +17732,7 @@ PrefabInstance:
     - target: {fileID: 7048511826035427509, guid: 6f88b346b679f0b49b43fe859507b850, type: 3}
       propertyPath: goodsIcon
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1519268381}
     - target: {fileID: 7048511826035427509, guid: 6f88b346b679f0b49b43fe859507b850, type: 3}
       propertyPath: moveSpeed
       value: 3
@@ -17900,7 +17905,7 @@ PrefabInstance:
     - target: {fileID: 7048511826035427509, guid: 6f88b346b679f0b49b43fe859507b850, type: 3}
       propertyPath: goodsIcon
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1314609229}
     - target: {fileID: 7048511826035427509, guid: 6f88b346b679f0b49b43fe859507b850, type: 3}
       propertyPath: moveSpeed
       value: 3
@@ -24503,6 +24508,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7048511826035427509, guid: 6f88b346b679f0b49b43fe859507b850, type: 3}
+      propertyPath: goodsIcon
+      value: 
+      objectReference: {fileID: 1166725342}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25246,7 +25255,7 @@ PrefabInstance:
     - target: {fileID: 7048511826035427509, guid: 6f88b346b679f0b49b43fe859507b850, type: 3}
       propertyPath: goodsIcon
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1184252177}
     - target: {fileID: 7048511826035427509, guid: 6f88b346b679f0b49b43fe859507b850, type: 3}
       propertyPath: moveSpeed
       value: 3
