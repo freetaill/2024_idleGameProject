@@ -26,6 +26,11 @@ public class ClickEvent : MonoBehaviour
     public GameObject specialPreach; // 특수 이벤트 오브젝트
     GameObject SpecialPreach;
 
+    public GameObject Ingredients; // 건물 이벤트용 오브젝트
+
+    public GameObject coinimage;
+
+
     void Update()
     {
         // 1. 마우스 위치 실시간 가져오기
@@ -108,6 +113,12 @@ public class ClickEvent : MonoBehaviour
     {
         // 오브젝트 클릭 시 수행할 동작 구현
         Debug.Log($"Event triggered for {clickedObject.name}");
+
+        if (clickedObject.CompareTag("SubTemple"))
+        {
+            Ingredients.GetComponent<Coin>().goodsIcon = coinimage;
+            Instantiate(Ingredients, clickedObject.gameObject.transform.position + new Vector3(0, 2f), Quaternion.identity);
+        }
     }
 
     // 화면 이동 및 확대/축소 처리 함수
@@ -115,14 +126,13 @@ public class ClickEvent : MonoBehaviour
     {
         Debug.Log("Screen move or zoom triggered.");
         // 화면 이동 동작 구현
-        
     }
 
     private void HandleScreenZoomAndOut()
     {
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         // 카메라의 FOV 값을 조정하여 줌 인/아웃
-        mainCamera.orthographicSize += scrollInput * 2f;
+        mainCamera.orthographicSize -= scrollInput * 2f;
         cameraMoveRange_x += scrollInput * 3f;
 
         if (Mathf.Abs(mainCamera.transform.position.x) >= cameraMoveRange_x)

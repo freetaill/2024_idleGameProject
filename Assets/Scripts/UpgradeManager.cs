@@ -23,7 +23,60 @@ public class UpgradeManager : MonoBehaviour
     private GameObject activeUpgradePanel;
     private GameObject activeConfigPanel;
 
-    GameObject CameraMove;
+    // 골드와 신도수 패널
+    public  GameObject GoldAndBelieverPanel;
+
+    public new Camera camera;
+
+    private bool isUpgradeArea = false;
+    private bool isUntillUpgradeArea = true;
+
+    private void Start()
+    {
+        camera = Camera.main;
+    }
+
+    private void Update()
+    {
+        if (isUpgradeArea)
+        {
+            // 카메라의 현재 Y 위치 확인
+            if (camera.transform.position.y == 0.0f)
+            {
+                // 0에서 -1.2f로 이동하는 코루틴 시작
+                StartCoroutine(MoveCamera(-1.2f, 10f));
+            }
+            else if (camera.transform.position.y == -1.2f && !isUntillUpgradeArea)
+            {
+                // -1.2f에서 0으로 이동하는 코루틴 시작
+                StartCoroutine(MoveCamera(0.0f, -140f));
+            }
+            else
+            {
+                isUpgradeArea = false;
+            }
+        }
+    }
+    IEnumerator MoveCamera(float CameratargetY, float PaneltargetY)
+    {
+        Vector3 startPosition = camera.transform.position;
+        Vector3 targetPosition = new Vector3(startPosition.x, CameratargetY, startPosition.z);
+        float elapsedTime = 0.0f;
+
+        // 부드럽게 이동
+        while (elapsedTime < 3.0f)
+        {
+            camera.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / 1.0f);
+            GoldAndBelieverPanel.transform.localPosition = Vector3.Lerp(GoldAndBelieverPanel.transform.localPosition, new Vector3(0, PaneltargetY, 0), elapsedTime / 10.45f);
+            elapsedTime += Time.deltaTime * 8.0f;
+            yield return null;
+        }
+
+        // 최종 위치를 정확히 설정
+        camera.transform.position = targetPosition;
+        GoldAndBelieverPanel.transform.localPosition = new Vector3(0, PaneltargetY, 0);
+        isUpgradeArea = false;
+    }
 
     // 모든 패널을 비활성화
     private void DeactivateAllPanels()
@@ -57,6 +110,11 @@ public class UpgradeManager : MonoBehaviour
             panel.SetActive(false);
         }
     }
+    public void k(bool value)
+    {
+        isUpgradeArea = true;
+        isUntillUpgradeArea = value;
+    }
 
     // 업그레이드 패널 열기 또는 닫기
     public void ToggleUpgradePanel(GameObject panel)
@@ -67,7 +125,7 @@ public class UpgradeManager : MonoBehaviour
             StartCoroutine(AnimatePanel(panel, false));
             activeUpgradePanel = null; // 아무 패널도 활성화되지 않도록 설정
 
-            gameObject.GetComponent<CameraMoveControl>().k(false);
+            k(false);
         }
         else
         {
@@ -78,7 +136,7 @@ public class UpgradeManager : MonoBehaviour
             panel.SetActive(true);
             StartCoroutine(AnimatePanel(panel, true));
             activeUpgradePanel = panel; // 현재 활성화된 패널로 설정
-            gameObject.GetComponent<CameraMoveControl>().k(true);
+            k(true);
         }
     }
 
