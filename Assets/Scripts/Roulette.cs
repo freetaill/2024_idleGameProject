@@ -72,16 +72,6 @@ public class Roulette : MonoBehaviour
 
     void Rotate()
     {
-        /*
-        for(int i = 0;i<roletteCount;i++)
-        {
-            Vector3 direction = transform.GetChild(0)GetChild(i).transform.position - rotationCenter;
-            float angle = currentSpeed * Time.deltaTime;
-
-            // 중심점을 기준으로 회전
-            transform.GetChild(i).transform.RotateAround(rotationCenter, Vector3.forward, angle);
-        }
-        */
         transform.GetChild(0).Rotate(0f, 0f, -currentSpeed * Time.deltaTime);
     }
     void FindClosestSlot()
@@ -122,7 +112,6 @@ public class Roulette : MonoBehaviour
             }
             else
                 Rotate();
-            Debug.Log("위치 : "  + transform.GetChild(0).GetChild(0).transform.position);
         }
     }
     public void OnClickGetButtion()
