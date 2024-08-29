@@ -101,7 +101,5 @@ public class CameraMoveControl : MonoBehaviour
     {
         isUpgradeArea = true;
         isUntillUpgradeArea = value;
-
-        RectTransform rectTransform = camera.GetComponent<RectTransform>(); 
     }
 }
