@@ -139,7 +139,7 @@ public class ClickEvent : MonoBehaviour
 
         // FOV 값 제한
         mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize, 5f, 8f);
-        cameraMoveRange_x = Mathf.Clamp(cameraMoveRange_x, 4f, 6f);
+        cameraMoveRange_x = Mathf.Clamp(cameraMoveRange_x, 12f, 14f);
     }
 
     // 더블 클릭 처리 함수
