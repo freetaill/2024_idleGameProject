@@ -7,12 +7,12 @@ public class Coin : MonoBehaviour
 {
     public GameObject goodsIcon; // 목표 위치
     [Header("퍼지는 정도")]
-    public float scatterRadius = 1.0f; // 퍼지는 반경
-    public float scatterDuration = 0.5f; // 퍼지는 시간
-    public float scatterSpeed = 1.0f; // 퍼지는 속도 조절
+    public float scatterRadius = 1.5f; // 퍼지는 반경
+    public float scatterDuration = 0.8f; // 퍼지는 시간
+    public float scatterSpeed = 0.5f; // 퍼지는 속도 조절
     [Header("목표까지 이동")]
-    public float moveDuration = 1.0f; // 목표 위치로 이동하는 시간
-    public float moveSpeed = 1.0f; // 목표로 이동하는 속도 조절
+    public float moveDuration = 0.5f; // 목표 위치로 이동하는 시간
+    public float moveSpeed = 3f; // 목표로 이동하는 속도 조절
 
     private Vector3 startPosition;
     private Vector3 scatterPosition;

@@ -122,8 +122,20 @@ public class ClickEvent : MonoBehaviour
     {
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         // 카메라의 FOV 값을 조정하여 줌 인/아웃
-        mainCamera.orthographicSize -= scrollInput * 3f;
-        cameraMoveRange_x += scrollInput * 6f;
+        mainCamera.orthographicSize += scrollInput * 2f;
+        cameraMoveRange_x += scrollInput * 3f;
+
+        if (Mathf.Abs(mainCamera.transform.position.x) >= cameraMoveRange_x)
+        {
+            if (mainCamera.transform.position.x > 0)
+            {
+                mainCamera.transform.position = new Vector3(cameraMoveRange_x, 0, -10);
+            }
+            else
+            {
+                mainCamera.transform.position = new Vector3(-cameraMoveRange_x, 0, -10);
+            }
+        }
 
         // FOV 값 제한
         mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize, 5f, 8f);

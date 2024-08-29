@@ -17911,7 +17911,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1454636288}
   - component: {fileID: 1454636285}
-  - component: {fileID: 1454636287}
   - component: {fileID: 1454636286}
   m_Layer: 0
   m_Name: UpgradeManager
@@ -17957,21 +17956,6 @@ MonoBehaviour:
   enlargedWidth: 288
   normalWidth: 180
   shrinkedWidth: 144
---- !u!114 &1454636287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1454636284}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67d305d959dfb014fa8c558abd3319e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 589504190}
-  cameraMoveRange_x: 6
-  dragSpeed: 2
 --- !u!4 &1454636288
 Transform:
   m_ObjectHideFlags: 0
@@ -21028,7 +21012,6 @@ GameObject:
   - component: {fileID: 1709757223}
   - component: {fileID: 1709757222}
   - component: {fileID: 1709757221}
-  - component: {fileID: 1709757220}
   - component: {fileID: 1709757224}
   m_Layer: 0
   m_Name: EventSystem
@@ -21037,19 +21020,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1709757220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709757219}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e7970558021d4446bd79b782c2917f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  specialPreach: {fileID: 2076916601340391264, guid: 0c6e835b7bbfc9d4da1dfe7ca4ec131e, type: 3}
 --- !u!114 &1709757221
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -37,12 +37,12 @@ public class GameManager : MonoBehaviour
     public long city2;
     public long city3;
 
-    //신보
-    public long weapon1;
-    public long weapon2;
-    public long weapon3;
-    public long weapon4;
-    
+
+    //노동력
+    public long Labor1;
+    public long Labor2;
+    public long Labor3;
+    public long Labor4;
 
     //기준 비용
 
@@ -70,11 +70,12 @@ public class GameManager : MonoBehaviour
     public long UpgradeCity2Cost;
     public long UpgradeCity3Cost;
 
-    //신보
-    public long UpgradeWeapon1Cost;
-    public long UpgradeWeapon2Cost;
-    public long UpgradeWeapon3Cost;
-    public long UpgradeWeapon4Cost;
+    //노동력
+    public long UpgradeLabor1Cost;
+    public long UpgradeLabor2Cost;
+    public long UpgradeLabor3Cost;
+    public long UpgradeLabor4Cost;
+
     
     //게임 오브젝트
     public TextMeshProUGUI goldText;
@@ -83,6 +84,18 @@ public class GameManager : MonoBehaviour
     public GameObject MissionaryPanel;
     public GameObject BuildingPanel;
     public GameObject WeaponPanel;
+
+
+    //재화 저장 변수
+    public float SaveTime = 10;
+    private float timer = 0;
+
+    public System.Random random;
+    public long Maxrandom = 10;
+    public long MinRandom = 0;
+
+    //초당 골드 획득량
+    public long GoldGetAmount = 0;
 
     // 함수
     
@@ -126,6 +139,25 @@ public class GameManager : MonoBehaviour
         //텍스트 업로드
         SetUIText();
         //초기 가시화 설정
+        random = new System.Random();
+    }
+    void Update()
+    {
+        // 시간 누적
+        timer += Time.deltaTime;
+
+        if (timer >= 1f)
+        {
+            //초에 따라서 골드 얻기
+            AddGold(GoldGetAmount);
+        }
+        // 일정 시간 간격이 지났는지 확인
+        if (timer >= SaveTime)
+        {
+            SaveData();
+
+            timer = 0f;
+        }
     }
     // 화면에 표시되는 재화, 인구수 설정 함수
     public void SetUIText()
@@ -134,15 +166,116 @@ public class GameManager : MonoBehaviour
         beliverText.text = "" + beliver;
     }
     // 데이터 저장 함수
-    public void SaveData(String name,String value)
+    public void SaveData()
     {
-        PlayerPrefs.SetString(name,value);
+ PlayerPrefs.SetString("beliver", beliver.ToString());
+        PlayerPrefs.SetString("gold", gold.ToString());
+        PlayerPrefs.SetString("tree", tree.ToString());
+        PlayerPrefs.SetString("bread", bread.ToString());
+        PlayerPrefs.SetString("rock", rock.ToString());
+
+        PlayerPrefs.SetString("missionary", missionary.ToString());
+        PlayerPrefs.SetString("fanatic", fanatic.ToString());
+        PlayerPrefs.SetString("cardinal", cardinal.ToString());
+        PlayerPrefs.SetString("adult", adult.ToString());
+        PlayerPrefs.SetString("dragoon", dragoon.ToString());
+
+        PlayerPrefs.SetString("hut", hut.ToString());
+        PlayerPrefs.SetString("church2", church2.ToString());
+        PlayerPrefs.SetString("church3", church3.ToString());
+        PlayerPrefs.SetString("zeolite1", zeolite1.ToString());
+        PlayerPrefs.SetString("zeolite2", zeolite2.ToString());
+        PlayerPrefs.SetString("zeolite3", zeolite3.ToString());
+        PlayerPrefs.SetString("city1", city1.ToString());
+        PlayerPrefs.SetString("city2", city2.ToString());
+        PlayerPrefs.SetString("city3", city3.ToString());
+
+        PlayerPrefs.SetString("Labor1", Labor1.ToString());
+        PlayerPrefs.SetString("Labor2", Labor2.ToString());
+        PlayerPrefs.SetString("Labor3", Labor3.ToString());
+        PlayerPrefs.SetString("Labor4", Labor4.ToString());
+
+        PlayerPrefs.SetString("UpgradeTreeCost", UpgradeTreeCost.ToString());
+        PlayerPrefs.SetString("UpgradeRockCost", UpgradeRockCost.ToString());
+        PlayerPrefs.SetString("UpgradeBreadCost", UpgradeBreadCost.ToString());
+
+        PlayerPrefs.SetString("UpgradeMissionaryCost", UpgradeMissionaryCost.ToString());
+        PlayerPrefs.SetString("UpgradeFanaticCost", UpgradeFanaticCost.ToString());
+        PlayerPrefs.SetString("UpgradeCardinalCost", UpgradeCardinalCost.ToString());
+        PlayerPrefs.SetString("UpgradeAdultCost", UpgradeAdultCost.ToString());
+        PlayerPrefs.SetString("UpgradeDragoonCost", UpgradeDragoonCost.ToString());
+
+        PlayerPrefs.SetString("UpgradeHutCost", UpgradeHutCost.ToString());
+        PlayerPrefs.SetString("UpgradeChurch2Cost", UpgradeChurch2Cost.ToString());
+        PlayerPrefs.SetString("UpgradeChurch3Cost", UpgradeChurch3Cost.ToString());
+        PlayerPrefs.SetString("UpgradeZeolite1Cost", UpgradeZeolite1Cost.ToString());
+        PlayerPrefs.SetString("UpgradeZeolite2Cost", UpgradeZeolite2Cost.ToString());
+        PlayerPrefs.SetString("UpgradeZeolite3Cost", UpgradeZeolite3Cost.ToString());
+        PlayerPrefs.SetString("UpgradeCity1Cost", UpgradeCity1Cost.ToString());
+        PlayerPrefs.SetString("UpgradeCity2Cost", UpgradeCity2Cost.ToString());
+        PlayerPrefs.SetString("UpgradeCity3Cost", UpgradeCity3Cost.ToString());
+
+        PlayerPrefs.SetString("UpgradeLabor1Cost", UpgradeLabor1Cost.ToString());
+        PlayerPrefs.SetString("UpgradeLabor2Cost", UpgradeLabor2Cost.ToString());
+        PlayerPrefs.SetString("UpgradeLabor3Cost", UpgradeLabor3Cost.ToString());
+        PlayerPrefs.SetString("UpgradeLabor4Cost", UpgradeLabor4Cost.ToString());
+
+        PlayerPrefs.Save();
     }
     // 데이터 로드 함수
     public void LoadData()
     {
-        gold = long.Parse(PlayerPrefs.GetString("gold","0"));
-        beliver = long.Parse(PlayerPrefs.GetString("beliver","0"));
+        beliver = long.Parse(PlayerPrefs.GetString("beliver", "0"));
+        gold = long.Parse(PlayerPrefs.GetString("gold", "0"));
+        tree = long.Parse(PlayerPrefs.GetString("tree", "0"));
+        bread = long.Parse(PlayerPrefs.GetString("bread", "0"));
+        rock = long.Parse(PlayerPrefs.GetString("rock", "0"));
+
+        missionary = long.Parse(PlayerPrefs.GetString("missionary", "0"));
+        fanatic = long.Parse(PlayerPrefs.GetString("fanatic", "0"));
+        cardinal = long.Parse(PlayerPrefs.GetString("cardinal", "0"));
+        adult = long.Parse(PlayerPrefs.GetString("adult", "0"));
+        dragoon = long.Parse(PlayerPrefs.GetString("dragoon", "0"));
+
+        hut = long.Parse(PlayerPrefs.GetString("hut", "0"));
+        church2 = long.Parse(PlayerPrefs.GetString("church2", "0"));
+        church3 = long.Parse(PlayerPrefs.GetString("church3", "0"));
+        zeolite1 = long.Parse(PlayerPrefs.GetString("zeolite1", "0"));
+        zeolite2 = long.Parse(PlayerPrefs.GetString("zeolite2", "0"));
+        zeolite3 = long.Parse(PlayerPrefs.GetString("zeolite3", "0"));
+        city1 = long.Parse(PlayerPrefs.GetString("city1", "0"));
+        city2 = long.Parse(PlayerPrefs.GetString("city2", "0"));
+        city3 = long.Parse(PlayerPrefs.GetString("city3", "0"));
+
+        Labor1 = long.Parse(PlayerPrefs.GetString("Labor1", "0"));
+        Labor2 = long.Parse(PlayerPrefs.GetString("Labor2", "0"));
+        Labor3 = long.Parse(PlayerPrefs.GetString("Labor3", "0"));
+        Labor4 = long.Parse(PlayerPrefs.GetString("Labor4", "0"));
+
+        UpgradeTreeCost = long.Parse(PlayerPrefs.GetString("UpgradeTreeCost", "0"));
+        UpgradeRockCost = long.Parse(PlayerPrefs.GetString("UpgradeRockCost", "0"));
+        UpgradeBreadCost = long.Parse(PlayerPrefs.GetString("UpgradeBreadCost", "0"));
+
+        UpgradeMissionaryCost = long.Parse(PlayerPrefs.GetString("UpgradeMissionaryCost", "0"));
+        UpgradeFanaticCost = long.Parse(PlayerPrefs.GetString("UpgradeFanaticCost", "0"));
+        UpgradeCardinalCost = long.Parse(PlayerPrefs.GetString("UpgradeCardinalCost", "0"));
+        UpgradeAdultCost = long.Parse(PlayerPrefs.GetString("UpgradeAdultCost", "0"));
+        UpgradeDragoonCost = long.Parse(PlayerPrefs.GetString("UpgradeDragoonCost", "0"));
+
+        UpgradeHutCost = long.Parse(PlayerPrefs.GetString("UpgradeHutCost", "0"));
+        UpgradeChurch2Cost = long.Parse(PlayerPrefs.GetString("UpgradeChurch2Cost", "0"));
+        UpgradeChurch3Cost = long.Parse(PlayerPrefs.GetString("UpgradeChurch3Cost", "0"));
+        UpgradeZeolite1Cost = long.Parse(PlayerPrefs.GetString("UpgradeZeolite1Cost", "0"));
+        UpgradeZeolite2Cost = long.Parse(PlayerPrefs.GetString("UpgradeZeolite2Cost", "0"));
+        UpgradeZeolite3Cost = long.Parse(PlayerPrefs.GetString("UpgradeZeolite3Cost", "0"));
+        UpgradeCity1Cost = long.Parse(PlayerPrefs.GetString("UpgradeCity1Cost", "0"));
+        UpgradeCity2Cost = long.Parse(PlayerPrefs.GetString("UpgradeCity2Cost", "0"));
+        UpgradeCity3Cost = long.Parse(PlayerPrefs.GetString("UpgradeCity3Cost", "0"));
+
+        UpgradeLabor1Cost = long.Parse(PlayerPrefs.GetString("UpgradeLabor1Cost", "0"));
+        UpgradeLabor2Cost = long.Parse(PlayerPrefs.GetString("UpgradeLabor2Cost", "0"));
+        UpgradeLabor3Cost = long.Parse(PlayerPrefs.GetString("UpgradeLabor3Cost", "0"));
+        UpgradeLabor4Cost = long.Parse(PlayerPrefs.GetString("UpgradeLabor4Cost", "0"));
     }
     //버튼 클릭 함수
     public void ResourceButton_Click()
@@ -193,10 +326,10 @@ public class GameManager : MonoBehaviour
     public long GetCity1(){return Instance.city1;}
     public long GetCity2(){return Instance.city2;}
     public long GetCity3(){return Instance.city3;}
-    public long GetWeapon1(){return Instance.weapon1;}
-    public long GetWeapon2(){return Instance.weapon2;}
-    public long GetWeapon3(){return Instance.weapon3;}
-    public long GetWeapon4(){return Instance.weapon4;}
+    public long GetLabor1(){return Instance.Labor1;}
+    public long GetLabor2(){return Instance.Labor2;}
+    public long GetLabor3(){return Instance.Labor3;}
+    public long GetLabor4(){return Instance.Labor4;}
 
     //재화 수 증가 함수
 
@@ -219,10 +352,10 @@ public class GameManager : MonoBehaviour
     public long AddCity1(long amount){ Instance.city1+=amount;SetUIText(); return Instance.city1; }
     public long AddCity2(long amount){ Instance.city2+=amount;SetUIText(); return Instance.city2; }
     public long AddCity3(long amount){ Instance.city3+=amount;SetUIText(); return Instance.city3; }
-    public long AddWeapon1(long amount){ Instance.weapon1+=amount;SetUIText(); return Instance.weapon1; }
-    public long AddWeapon2(long amount){ Instance.weapon2+=amount;SetUIText(); return Instance.weapon2; }
-    public long AddWeapon3(long amount){ Instance.weapon3+=amount;SetUIText(); return Instance.weapon3; }
-    public long AddWeapon4(long amount){ Instance.weapon4+=amount;SetUIText(); return Instance.weapon4; }
+    public long AddLabor1(long amount){ Instance.Labor1+=amount;SetUIText(); return Instance.Labor1; }
+    public long AddLabor2(long amount){ Instance.Labor2+=amount;SetUIText(); return Instance.Labor2; }
+    public long AddLabor3(long amount){ Instance.Labor3+=amount;SetUIText(); return Instance.Labor3; }
+    public long AddLabor4(long amount){ Instance.Labor4+=amount;SetUIText(); return Instance.Labor4; }
 
     //재화 수 감소 함수
     public long SubGold(long amount) { Instance.gold-=amount;SetUIText(); return Instance.gold; }
@@ -244,10 +377,10 @@ public class GameManager : MonoBehaviour
     public long SubCity1(long amount){ Instance.city1-=amount;SetUIText(); return Instance.city1; }
     public long SubCity2(long amount){ Instance.city2-=amount;SetUIText(); return Instance.city2; }
     public long SubCity3(long amount){ Instance.city3-=amount;SetUIText(); return Instance.city3; }
-    public long SubWeapon1(long amount){ Instance.weapon1-=amount;SetUIText(); return Instance.weapon1; }
-    public long SubWeapon2(long amount){ Instance.weapon1-=amount;SetUIText(); return Instance.weapon2; }
-    public long SubWeapon3(long amount){ Instance.weapon1-=amount;SetUIText(); return Instance.weapon3; }
-    public long SubWeapon4(long amount){ Instance.weapon1-=amount;SetUIText(); return Instance.weapon4; }
+    public long SubLabor1(long amount){ Instance.Labor1-=amount;SetUIText(); return Instance.Labor1; }
+    public long SubLabor2(long amount){ Instance.Labor2-=amount;SetUIText(); return Instance.Labor2; }
+    public long SubLabor3(long amount){ Instance.Labor3-=amount;SetUIText(); return Instance.Labor3; }
+    public long SubLabor4(long amount){ Instance.Labor4-=amount;SetUIText(); return Instance.Labor4; }
 
 
     //현재 재화의 양, 필요한 돈 바꾸기 위한 변수
@@ -262,11 +395,11 @@ public class GameManager : MonoBehaviour
     public void OnButtonClickRock()
     {
 
-        if (GetGold() <= UpgradeRockCost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeRockCost)
+            Debug.Log("노동력 부족");
         else 
         {
-            SubGold(UpgradeRockCost);
+            SubLabor1(UpgradeRockCost);
             AddRock(UpgradeRockCost);
         }
 
@@ -280,11 +413,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickTree()
     {
-        if (GetGold() <= UpgradeTreeCost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeTreeCost)
+            Debug.Log("노동력 부족");
         else
                 {
-            SubGold(UpgradeTreeCost);
+            SubLabor1(UpgradeTreeCost);
             AddTree(UpgradeTreeCost);
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -297,11 +430,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickBread()
     {
-        if (GetGold() <= UpgradeBreadCost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeBreadCost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeBreadCost);
+            SubLabor1(UpgradeBreadCost);
             AddBread(UpgradeBreadCost);
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -315,11 +448,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickMissionary()
     {
-        if (GetGold() <= UpgradeMissionaryCost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeMissionaryCost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeMissionaryCost);
+            SubLabor1(UpgradeMissionaryCost);
             AddMissionary(UpgradeMissionaryCost);
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -334,11 +467,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickFanatic()
     {
-        if (GetGold() <= UpgradeFanaticCost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeFanaticCost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeFanaticCost);
+            SubLabor1(UpgradeFanaticCost);
             AddFanatic(UpgradeFanaticCost);
         }
                 //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -352,11 +485,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickCardinal()
     {
-        if (GetGold() <= UpgradeCardinalCost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeCardinalCost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeCardinalCost);
+            SubLabor1(UpgradeCardinalCost);
             AddCardinal(UpgradeCardinalCost);
         }
 
@@ -374,11 +507,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickAdult()
     {
-        if (GetGold() <= UpgradeMissionaryCost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeMissionaryCost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeAdultCost);
+            SubLabor1(UpgradeAdultCost);
             AddAdult(UpgradeAdultCost);
         }
                 //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -392,11 +525,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickDragoon()
     {
-        if (GetGold() <= UpgradeDragoonCost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeDragoonCost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeDragoonCost);
+            SubLabor1(UpgradeDragoonCost);
             AddDragoon(UpgradeDragoonCost);
         }
 
@@ -411,11 +544,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickHut()
     {
-        if (GetGold() <= UpgradeHutCost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeHutCost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeHutCost);
+            SubLabor1(UpgradeHutCost);
             AddHut(UpgradeHutCost);
         }
                 //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -429,11 +562,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickChurch2()
     {
-        if (GetGold() <= UpgradeChurch2Cost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeChurch2Cost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeChurch2Cost);
+            SubLabor1(UpgradeChurch2Cost);
             AddChurch2(UpgradeChurch2Cost);
         }
                         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -447,11 +580,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickChurch3()
     {
-        if (GetGold() <= UpgradeChurch3Cost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeChurch3Cost)
+            Debug.Log("노동력 부족");
         else{
 
-            SubGold(UpgradeChurch3Cost);
+            SubLabor1(UpgradeChurch3Cost);
             AddChurch3(UpgradeChurch3Cost);
         }
 
@@ -466,11 +599,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickZeolite1()
     {
-        if (GetGold() <= UpgradeZeolite1Cost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeZeolite1Cost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeZeolite1Cost);
+            SubLabor1(UpgradeZeolite1Cost);
             AddZeolite1(UpgradeZeolite1Cost);
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -484,11 +617,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickZeolite2()
     {
-        if (GetGold() <= UpgradeZeolite2Cost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeZeolite2Cost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeZeolite2Cost);
+            SubLabor1(UpgradeZeolite2Cost);
             AddZeolite2(UpgradeZeolite2Cost);
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -502,11 +635,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickZeolite3()
     {
-        if (GetGold() <= UpgradeZeolite3Cost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeZeolite3Cost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeZeolite3Cost);
+            SubLabor1(UpgradeZeolite3Cost);
             AddZeolite2(UpgradeZeolite3Cost);
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -520,11 +653,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickCity1()
     {
-        if (GetGold() <= UpgradeCity1Cost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeCity1Cost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeCity1Cost);
+            SubLabor1(UpgradeCity1Cost);
             AddCity1(UpgradeCity1Cost);
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -538,11 +671,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickCity2()
     {
-        if (GetGold() <= UpgradeCity2Cost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeCity2Cost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeCity2Cost);
+            SubLabor1(UpgradeCity2Cost);
             AddCity1(UpgradeCity2Cost);
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -556,11 +689,11 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickCity3()
     {
-        if (GetGold() <= UpgradeCity3Cost)
-            Debug.Log("골드 부족");
+        if (GetLabor1() <= UpgradeCity3Cost)
+            Debug.Log("노동력 부족");
         else
         {
-            SubGold(UpgradeCity3Cost);
+            SubLabor1(UpgradeCity3Cost);
             AddCity3(UpgradeCity3Cost);
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -572,76 +705,92 @@ public class GameManager : MonoBehaviour
         CostText.text = UpgradeCity3Cost+"";
         AmountText.text = GetCity3()+"";
     }
-    public void OnButtonClickWeapon1()
+
+    // 노동력 획득
+    
+       public void OnButtonClickLabor1()
     {
-        if (GetGold() <= UpgradeWeapon1Cost)
-            Debug.Log("골드 부족");
+        if (GetRock() <= UpgradeLabor1Cost || GetBread() <= UpgradeLabor1Cost || GetTree() <= UpgradeLabor1Cost)
+            Debug.Log("재료 부족");
         else
         {
-            SubGold(UpgradeWeapon1Cost);
-            AddWeapon1(UpgradeWeapon1Cost);
+            SubRock(UpgradeLabor1Cost);
+            SubBread(UpgradeLabor1Cost);
+            SubTree(UpgradeLabor1Cost);
+
+            AddLabor1((long)(random.NextDouble() * (Maxrandom - MinRandom) + MinRandom));
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
 
-        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
         
         //이제 텍스트 변경
-        CostText.text = UpgradeWeapon1Cost+"";
-        AmountText.text = GetWeapon1()+"";
+        CostText.text = UpgradeLabor1Cost+"";
+        AmountText.text = GetLabor1()+"";
     }
-    public void OnButtonClickWeapon2()
+           public void OnButtonClickLabor2()
     {
-        if (GetGold() <= UpgradeWeapon2Cost)
-            Debug.Log("골드 부족");
+        if (GetRock() <= UpgradeLabor2Cost || GetBread() <= UpgradeLabor2Cost || GetTree() <= UpgradeLabor2Cost)
+            Debug.Log("재료 부족");
         else
         {
-            SubGold(UpgradeWeapon2Cost);
-            AddWeapon2(UpgradeWeapon2Cost);
+            SubRock(UpgradeLabor2Cost);
+            SubBread(UpgradeLabor2Cost);
+            SubTree(UpgradeLabor2Cost);
+
+            AddLabor2((long)(random.NextDouble() * (Maxrandom - MinRandom) + MinRandom));
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
 
-        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
         
         //이제 텍스트 변경
-        CostText.text = UpgradeWeapon2Cost+"";
-        AmountText.text = GetWeapon2()+"";
+        CostText.text = UpgradeLabor2Cost+"";
+        AmountText.text = GetLabor2()+"";
     }
-    public void OnButtonClickWeapon3()
+           public void OnButtonClickLabor3()
     {
-        if (GetGold() <= UpgradeWeapon3Cost)
-            Debug.Log("골드 부족");
+        if (GetRock() <= UpgradeLabor3Cost || GetBread() <= UpgradeLabor3Cost || GetTree() <= UpgradeLabor3Cost)
+            Debug.Log("재료 부족");
         else
         {
-            SubGold(UpgradeWeapon3Cost);
-            AddWeapon3(UpgradeWeapon3Cost);
+            SubRock(UpgradeLabor3Cost);
+            SubBread(UpgradeLabor3Cost);
+            SubTree(UpgradeLabor3Cost);
+
+            AddLabor3((long)(random.NextDouble() * (Maxrandom - MinRandom) + MinRandom));
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
 
-        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
         
         //이제 텍스트 변경
-        CostText.text = UpgradeWeapon3Cost+"";
-        AmountText.text = GetWeapon3()+"";
+        CostText.text = UpgradeLabor3Cost+"";
+        AmountText.text = GetLabor3()+"";
     }
-    public void OnButtonClickWeapon4()
+    public void OnButtonClickLabor4()
     {
-        if (GetGold() <= UpgradeWeapon4Cost)
-            Debug.Log("골드 부족");
+        if (GetRock() <= UpgradeLabor4Cost || GetBread() <= UpgradeLabor4Cost || GetTree() <= UpgradeLabor4Cost)
+            Debug.Log("재료 부족");
         else
         {
-            SubGold(UpgradeWeapon4Cost);
-            AddWeapon4(UpgradeWeapon4Cost);
+            SubRock(UpgradeLabor4Cost);
+            SubBread(UpgradeLabor4Cost);
+            SubTree(UpgradeLabor4Cost);
+
+            AddLabor4((long)(random.NextDouble() * (Maxrandom - MinRandom) + MinRandom));
         }
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
 
-        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
         
         //이제 텍스트 변경
-        CostText.text = UpgradeWeapon4Cost+"";
-        AmountText.text = GetWeapon4()+"";
+        CostText.text = UpgradeLabor4Cost+"";
+        AmountText.text = GetLabor4()+"";
     }
 }
+    
