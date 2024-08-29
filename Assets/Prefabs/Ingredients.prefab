@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7048511826035427509}
   - component: {fileID: 5679736611381191631}
   m_Layer: 0
-  m_Name: Goods
+  m_Name: Ingredients
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,8 +100,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94bc473862ca2c4e8e757d0fb706a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoodsIcon: {fileID: 0}
-  Speed: 1
+  goodsIcon: {fileID: 0}
+  scatterRadius: 1.5
+  scatterDuration: 0.8
+  scatterSpeed: 0.5
+  moveDuration: 0.5
+  moveSpeed: 3
 --- !u!58 &5679736611381191631
 CircleCollider2D:
   m_ObjectHideFlags: 0
