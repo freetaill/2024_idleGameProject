@@ -24,19 +24,17 @@ public class Weapon : MonoBehaviour
     private bool isScalingDown = false;
     private float scaleTimer;
 
-    //panel 가시성
-    public GameObject WeaponPanel;
-
     //버튼이 0이면 Get, 버튼이 1이면 Stop
     private int buttonState;
 
     //Get 인지 Stop인지를 표지할 텍스트
-    public TextMeshProUGUI WeaponControlText;
+    private TextMeshProUGUI WeaponControlText;
 
     void Start()
     {
-        image = GetComponent<Image>();
-        originalScale = transform.localScale; // 처음 객체의 스케일 저장
+        image = transform.GetChild(0).GetComponent<Image>();
+        WeaponControlText = transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        originalScale = image.transform.localScale;
 
         if (sprites.Length > 0)
         {
@@ -44,8 +42,8 @@ public class Weapon : MonoBehaviour
             frameDuration = 1f / frameRate;
         }
         buttonState = 0;
-        WeaponPanel.SetActive(false);
-        image.enabled = true;
+        gameObject.SetActive(false);
+        transform.GetChild(4).gameObject.SetActive(false);
     }
 
     public void OnClickWeaponButton()
@@ -71,20 +69,16 @@ public class Weapon : MonoBehaviour
     }
     public void OnClickCloseButton()
     {
-        WeaponPanel.SetActive(false);
+        gameObject.SetActive(false);
         loop = false;
-        image.enabled = false;
-        enabled = false;
         buttonState = 0;
         WeaponControlText.text = "Get";
     }
     public void OnClickOpenButton()
     {
-        WeaponPanel.SetActive(true);
-        image.enabled = true;
+        gameObject.SetActive(true);
         if (sprites.Length > 0)
             image.sprite = sprites[currentFrame];
-        enabled = true;
         buttonState = 0;
         WeaponControlText.text = "Get";
     }
@@ -124,7 +118,7 @@ public class Weapon : MonoBehaviour
     {
         scaleTimer += Time.deltaTime;
         float progress = Mathf.Clamp01(scaleTimer / scaleDuration);
-        transform.localScale = Vector3.Lerp(originalScale, targetScale, progress);
+        image.transform.localScale = Vector3.Lerp(originalScale, targetScale, progress);
 
         if (progress >= 1f)
         {
@@ -143,12 +137,17 @@ public class Weapon : MonoBehaviour
     {
         scaleTimer += Time.deltaTime;
         float progress = Mathf.Clamp01(scaleTimer / scaleBackDuration);
-        transform.localScale = Vector3.Lerp(targetScale, originalScale, progress);
+        image.transform.localScale = Vector3.Lerp(targetScale, originalScale, progress);
 
         if (progress >= 1f)
         {
             isScalingDown = false; // 크기 감소 완료
-            // 필요시 이 시점에서 GameObject 비활성화 등 추가 로직 처리 가능
+            transform.GetChild(4).gameObject.SetActive(true);
+            transform.GetChild(4).GetChild(0).GetComponent<Image>().sprite = image.sprite;
         }
+    }
+    public void OnClickGetButtion()
+    {
+        transform.GetChild(4).gameObject.SetActive(false);
     }
 }
