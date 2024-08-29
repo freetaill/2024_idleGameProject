@@ -14,6 +14,11 @@ public class UpgradeManager : MonoBehaviour
     public GameObject configPanel;
     public GameObject configExternalPanel;
 
+    // 애니메이션 설정
+    public float animationDuration = 0.5f; // 애니메이션이 걸리는 시간
+    public float targetPositionY = 0f; // 패널이 최종적으로 위치할 Y 좌표
+    public float hiddenPositionY = -1000f; // 패널이 화면 밖에 있을 Y 좌표
+
     // 현재 활성화된 패널을 추적하는 변수
     private GameObject activeUpgradePanel;
     private GameObject activeConfigPanel;
@@ -23,34 +28,33 @@ public class UpgradeManager : MonoBehaviour
     // 모든 패널을 비활성화
     private void DeactivateAllPanels()
     {
-        upgradePanel1.SetActive(false);
-        upgradePanel2.SetActive(false);
-        upgradePanel3.SetActive(false);
-        upgradePanel4.SetActive(false);
-    }
-
-    // 설정 패널 열기 또는 닫기
-    public void ToggleConfigPanel(GameObject panel)
-    {
-        if (activeConfigPanel == panel)
+        if (activeUpgradePanel != null)
         {
-            configPanel.SetActive(false);
-            configExternalPanel.SetActive(false);
-            activeConfigPanel = null; // 아무 패널도 활성화되지 않도록 설정
+            StartCoroutine(AnimatePanel(activeUpgradePanel, false));
+            activeUpgradePanel = null;
         }
-        else
+    }
+    // 패널 애니메이션 함수
+    private IEnumerator AnimatePanel(GameObject panel, bool isActive)
+    {
+        RectTransform rectTransform = panel.GetComponent<RectTransform>();
+        Vector3 startPos = rectTransform.anchoredPosition;
+        Vector3 endPos = new Vector3(rectTransform.anchoredPosition.x, isActive ? targetPositionY : hiddenPositionY);
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < animationDuration)
         {
-            if (activeConfigPanel != null)
-            {
-                configPanel.SetActive(false);
-                configExternalPanel.SetActive(false);
-            }
+            rectTransform.anchoredPosition = Vector3.Lerp(startPos, endPos, elapsedTime / animationDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
 
-            // 클릭된 패널 활성화
-            panel.SetActive(true);
-            configExternalPanel.SetActive(true); // 함께 열림
+        rectTransform.anchoredPosition = endPos;
 
-            activeConfigPanel = panel; // 현재 활성화된 패널로 설정
+        if (!isActive)
+        {
+            panel.SetActive(false);
         }
     }
 
@@ -60,7 +64,7 @@ public class UpgradeManager : MonoBehaviour
         if (activeUpgradePanel == panel)
         {
             // 현재 활성화된 패널과 클릭된 패널이 같다면, 패널 닫기
-            DeactivateAllPanels();
+            StartCoroutine(AnimatePanel(panel, false));
             activeUpgradePanel = null; // 아무 패널도 활성화되지 않도록 설정
 
             gameObject.GetComponent<CameraMoveControl>().k(false);
@@ -72,6 +76,7 @@ public class UpgradeManager : MonoBehaviour
 
             // 클릭된 패널 활성화
             panel.SetActive(true);
+            StartCoroutine(AnimatePanel(panel, true));
             activeUpgradePanel = panel; // 현재 활성화된 패널로 설정
             gameObject.GetComponent<CameraMoveControl>().k(true);
         }
@@ -99,6 +104,31 @@ public class UpgradeManager : MonoBehaviour
     public void ToggleUpgradePanel4()
     {
         ToggleUpgradePanel(upgradePanel4);
+    }
+
+    // 설정 패널 열기 또는 닫기
+    public void ToggleConfigPanel(GameObject panel)
+    {
+        if (activeConfigPanel == panel)
+        {
+            configPanel.SetActive(false);
+            configExternalPanel.SetActive(false);
+            activeConfigPanel = null; // 아무 패널도 활성화되지 않도록 설정
+        }
+        else
+        {
+            if (activeConfigPanel != null)
+            {
+                configPanel.SetActive(false);
+                configExternalPanel.SetActive(false);
+            }
+
+            // 클릭된 패널 활성화
+            panel.SetActive(true);
+            configExternalPanel.SetActive(true); // 함께 열림
+
+            activeConfigPanel = panel; // 현재 활성화된 패널로 설정
+        }
     }
 
 }
