@@ -158,7 +158,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SoundManager.Instance.StopBGM();
-        SaveGameData();
         isLoading = true;
         LoadGameData();
         //텍스트 업로드
