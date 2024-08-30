@@ -23,6 +23,7 @@ public class Roulette : MonoBehaviour
     private float currentSpeed;
 
 
+
     void Start()
     {
         images = new Image[roletteCount];
@@ -92,6 +93,22 @@ public class Roulette : MonoBehaviour
         }
         ResultPanel.SetActive(true);
         ResultPanel.transform.GetChild(0).GetComponent<Image>().sprite = transform.GetChild(0).GetChild(closestIndex).GetChild(0).GetComponent<Image>().sprite;
+        GetResource(transform.GetChild(0).GetChild(closestIndex).GetChild(0).GetComponent<Image>());
+    }
+    public void GetResource(Image s)
+    {
+        if (s.sprite == sprites[0])
+            GameManager.Instance.AddValue(GameManager.Instance.gold,10);
+        if (s.sprite == sprites[1])
+            GameManager.Instance.AddValue(GameManager.Instance.bread,10);
+        if (s.sprite == sprites[2])
+            GameManager.Instance.AddValue(GameManager.Instance.rock,10);
+        if (s.sprite == sprites[3])
+            GameManager.Instance.AddValue(GameManager.Instance.tree,10);
+        if (s.sprite == sprites[4])
+            GameManager.Instance.AddValue(GameManager.Instance.beliver,10);
+        if (s.sprite == sprites[5])
+            GameManager.Instance.AddValue(GameManager.Instance.gold,10);
     }
     public float deceleration = 100f;
 
