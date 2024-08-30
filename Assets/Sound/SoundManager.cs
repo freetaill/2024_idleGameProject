@@ -76,6 +76,8 @@ public class SoundManager : MonoBehaviour
         BGMVolume = 1.0f;
 
         LoadAudio();
+
+        PlayBGM("bgm01");
     }
     private void LoadAudio()
     {
