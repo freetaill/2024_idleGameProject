@@ -5,81 +5,97 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
+
+/*
+
+정해야 할 것
+
+1. 초당 골드 획득량
+2. 초당 신도수 획득량
+3. 몇 초마다 저장할 건지
+4. 가격을 얼마나 올릴 건지
+*/
+
 public class GameManager : MonoBehaviour
 {
     //GamaManager 인스턴스
     private static GameManager _instance;
 
     //재화
-    public long beliver;
-    public long gold;
-    public long tree;
-    public long bread;
-    public long rock;
+    public int[] beliver;
+    public int[] gold;
+    public int[] tree;
+    public int[] bread;
+    public int[] rock;
+    public int[] GoldGetAmount;
 
 
     //선교사
-    public long missionary;
-    public long fanatic;
-    public long cardinal;
-    public long adult;
-    public long dragoon;
+    public int[] missionary;
+    public int[] fanatic;
+    public int[] cardinal;
+    public int[] messia;
+    public int[] doctor;
 
 
     //건물
-    public long hut;
-    public long church2;
-    public long church3;
-    public long zeolite1;
-    public long zeolite2;
-    public long zeolite3;
-    public long city1;
-    public long city2;
-    public long city3;
-
+    public int[] hut;
+    public int[] church2;
+    public int[] church3;
+    public int[] stone1;
+    public int[] stone2;
+    public int[] stone3;
+    public int[] house1;
+    public int[] house2;
+    public int[] house3;
+    public int[] catstone1;
+    public int[] catstone2;
+    public int[] catstone3;
+     public int[] statue1;
+    public int[] statue2;
+    public int[] statue3;
 
     //노동력
-    public long Labor1;
-    public long Labor2;
-    public long Labor3;
-    public long Labor4;
-
+    public int[] Labor;
     //기준 비용
 
-    public long UpgradeTreeCost;
-    public long UpgradeRockCost;
-    public long UpgradeBreadCost;
+    public int[] UpgradeTreeCost;
+    public int[] UpgradeRockCost;
+    public int[] UpgradeBreadCost;
 
 
     //선교사
-    public long UpgradeMissionaryCost;
-    public long UpgradeFanaticCost;
-    public long UpgradeCardinalCost;
-    public long UpgradeAdultCost;
-    public long UpgradeDragoonCost;
+    public int[] UpgradeMissionaryCost;
+    public int[] UpgradeFanaticCost;
+    public int[] UpgradeCardinalCost;
+    public int[] UpgradeMessiaCost;
+    public int[] UpgradeDoctorCost;
 
 
     //건물
-    public long UpgradeHutCost;
-    public long UpgradeChurch2Cost;
-    public long UpgradeChurch3Cost;
-    public long UpgradeZeolite1Cost;
-    public long UpgradeZeolite2Cost;
-    public long UpgradeZeolite3Cost;
-    public long UpgradeCity1Cost;
-    public long UpgradeCity2Cost;
-    public long UpgradeCity3Cost;
+    public int[] UpgradeHutCost;
+    public int[] UpgradeChurch2Cost;
+    public int[] UpgradeChurch3Cost;
+    public int[] UpgradeStone1Cost;
+    public int[] UpgradeStone2Cost;
+    public int[] UpgradeStone3Cost;
+    public int[] UpgradeHouse1Cost;
+    public int[] UpgradeHouse2Cost;
+    public int[] UpgradeHouse3Cost;
+    public int[] UpgradeCatStone1Cost;
+    public int[] UpgradeCatStone2Cost;
+    public int[] UpgradeCatStone3Cost;
+    public int[] UpgradeStatue1Cost;
+    public int[] UpgradeStatue2Cost;
+    public int[] UpgradeStatue3Cost;
 
-    //노동력
-    public long UpgradeLabor1Cost;
-    public long UpgradeLabor2Cost;
-    public long UpgradeLabor3Cost;
-    public long UpgradeLabor4Cost;
+    //노동력 -> 목재, 빵, 바위 기준치
+    public int[] UpgradeLaborCost;
 
-    
     //게임 오브젝트
     public TextMeshProUGUI goldText;
     public TextMeshProUGUI beliverText;
+
     public GameObject ResourcePanel;
     public GameObject MissionaryPanel;
     public GameObject BuildingPanel;
@@ -91,12 +107,19 @@ public class GameManager : MonoBehaviour
     private float timer = 0;
 
     public System.Random random;
-    public long Maxrandom = 10;
-    public long MinRandom = 0;
 
-    //초당 골드 획득량
-    public long GoldGetAmount = 0;
+    //랜덤 범위 설정
+    public int Maxrandom = 10;
+    public int MinRandom = 0;
 
+    //신도수당 얻을 수 있는 골드
+    public int[] beliverGetGold;
+
+    //초당 얻을 수 있는 신도수
+    public int[] beliverGetTime;
+
+    public bool isLoading;
+    
     // 함수
     
     public static GameManager Instance
@@ -134,148 +157,831 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //데이터를 읽어옴
-        LoadData();
+        Labor = new int[27];
+        isLoading = true;
+        LoadGameData();
         //텍스트 업로드
         SetUIText();
         //초기 가시화 설정
         random = new System.Random();
+        
     }
     void Update()
     {
-        // 시간 누적
-        timer += Time.deltaTime;
-
-        if (timer >= 1f)
+        if (isLoading == false)
         {
-            //초에 따라서 골드 얻기
-            AddGold(GoldGetAmount);
-        }
-        // 일정 시간 간격이 지났는지 확인
-        if (timer >= SaveTime)
-        {
-            SaveData();
+            // 시간 누적
+            timer += Time.deltaTime;
 
-            timer = 0f;
+            if (timer >= 10f)
+            {
+                //초에 따라서 골드 얻기
+                //AddValue(gold,GoldGetAmount);
+
+                //초당 신도수 더해주기
+                AddValue(beliver,beliverGetTime);
+                
+                //신도수 당 골드 얻기
+                for(int i = 0;i<beliver.Length && beliver[0] != 0;i++)
+                {
+                    for(int j = 0;j<beliver[i];j++)
+                    {
+                        //AddValue(gold,beliverGetGold);
+                    }
+                }
+                goldText.text = SetText(gold);
+                beliverText.text = SetText(beliver);
+            }
+            // 일정 시간 간격이 지났는지 확인
+            if (timer >= SaveTime)
+            {
+                SaveGameData();
+
+                timer = 0f;
+            }
         }
+
     }
     // 화면에 표시되는 재화, 인구수 설정 함수
     public void SetUIText()
     {
-        goldText.text = "" + gold;
-        beliverText.text = "" + beliver;
+
+        //바위 비용
+        ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeRockCost);
+        ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "재화 획득 : " + SetText(rock);
+
+        //나무
+        ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeTreeCost);
+        ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "재화 획득 : " + SetText(tree);
+
+        //빵
+        ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeBreadCost);
+        ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "재화 획득 : " + SetText(bread); 
+
+
+        //선교사
+        MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeMissionaryCost);
+        MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "초당 신도 수 + " + SetText(missionary) + "/s"; 
+
+        MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeCardinalCost);
+        MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "초당 신도 수 + " + SetText(cardinal) + "/s";
+        
+        MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeFanaticCost);
+        MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "초당 신도 수 + " + SetText(fanatic) + "/s";
+                
+        MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeMessiaCost);
+        MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "초당 신도 수 + " + SetText(messia) + "/s";
+        
+        MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeDoctorCost);
+        MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "초당 신도 수 + " + SetText(doctor) + "/s";             
+
+        //빌딩
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeHutCost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(hut) + "/s";
+
+        
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeChurch2Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(church2) + "/s";
+
+        
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeChurch3Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(church3) + "/s";
+
+        
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeStone1Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(stone1) + "/s";
+
+        
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeStone2Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(stone2) + "/s";
+
+        
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(5).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeStone3Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(5).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(stone3) + "/s";
+
+        
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(6).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeHouse1Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(6).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(house1) + "/s";
+
+        
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(7).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeHouse2Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(7).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(house2) + "/s";
+
+        
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(8).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeHouse3Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(8).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(house3) + "/s";
+
+        
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(9).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeCatStone1Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(9).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(catstone1) + "/s";
+
+        
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(10).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeCatStone3Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(10).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(catstone3) + "/s";
+
+        
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(11).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeStatue1Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(11).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(statue1) + "/s";
+
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(11).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeStatue2Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(11).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(statue2) + "/s";
+
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(11).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeStatue3Cost);
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(11).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "신도 당 골드 수" + SetText(UpgradeStatue3Cost) + "/s";
+
+        //신보
+        WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeLaborCost);
+        WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeLaborCost);
+        WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeLaborCost);
+        isLoading = false;
+    
     }
-    // 데이터 저장 함수
-    public void SaveData()
+    //현재 재화의 양, 필요한 돈 바꾸기 위한 변수
+
+    //버튼에는 재화를 얻기 위해 내야 되는 비용 , amount 에는 현재 얻을 수 있는 재화의 양을 저장
+
+    TextMeshProUGUI CostText;
+    TextMeshProUGUI AmountText;
+
+    //앞의 빈칸은 10000 이전 숫자 저장
+    Char[] unit = " ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+
+    // 함수 오버라이딩
+    // 배열끼리 더하는 함수
+
+    public void AddValue(int[] targetArray,int[] AddArray)
     {
- PlayerPrefs.SetString("beliver", beliver.ToString());
-        PlayerPrefs.SetString("gold", gold.ToString());
-        PlayerPrefs.SetString("tree", tree.ToString());
-        PlayerPrefs.SetString("bread", bread.ToString());
-        PlayerPrefs.SetString("rock", rock.ToString());
-
-        PlayerPrefs.SetString("missionary", missionary.ToString());
-        PlayerPrefs.SetString("fanatic", fanatic.ToString());
-        PlayerPrefs.SetString("cardinal", cardinal.ToString());
-        PlayerPrefs.SetString("adult", adult.ToString());
-        PlayerPrefs.SetString("dragoon", dragoon.ToString());
-
-        PlayerPrefs.SetString("hut", hut.ToString());
-        PlayerPrefs.SetString("church2", church2.ToString());
-        PlayerPrefs.SetString("church3", church3.ToString());
-        PlayerPrefs.SetString("zeolite1", zeolite1.ToString());
-        PlayerPrefs.SetString("zeolite2", zeolite2.ToString());
-        PlayerPrefs.SetString("zeolite3", zeolite3.ToString());
-        PlayerPrefs.SetString("city1", city1.ToString());
-        PlayerPrefs.SetString("city2", city2.ToString());
-        PlayerPrefs.SetString("city3", city3.ToString());
-
-        PlayerPrefs.SetString("Labor1", Labor1.ToString());
-        PlayerPrefs.SetString("Labor2", Labor2.ToString());
-        PlayerPrefs.SetString("Labor3", Labor3.ToString());
-        PlayerPrefs.SetString("Labor4", Labor4.ToString());
-
-        PlayerPrefs.SetString("UpgradeTreeCost", UpgradeTreeCost.ToString());
-        PlayerPrefs.SetString("UpgradeRockCost", UpgradeRockCost.ToString());
-        PlayerPrefs.SetString("UpgradeBreadCost", UpgradeBreadCost.ToString());
-
-        PlayerPrefs.SetString("UpgradeMissionaryCost", UpgradeMissionaryCost.ToString());
-        PlayerPrefs.SetString("UpgradeFanaticCost", UpgradeFanaticCost.ToString());
-        PlayerPrefs.SetString("UpgradeCardinalCost", UpgradeCardinalCost.ToString());
-        PlayerPrefs.SetString("UpgradeAdultCost", UpgradeAdultCost.ToString());
-        PlayerPrefs.SetString("UpgradeDragoonCost", UpgradeDragoonCost.ToString());
-
-        PlayerPrefs.SetString("UpgradeHutCost", UpgradeHutCost.ToString());
-        PlayerPrefs.SetString("UpgradeChurch2Cost", UpgradeChurch2Cost.ToString());
-        PlayerPrefs.SetString("UpgradeChurch3Cost", UpgradeChurch3Cost.ToString());
-        PlayerPrefs.SetString("UpgradeZeolite1Cost", UpgradeZeolite1Cost.ToString());
-        PlayerPrefs.SetString("UpgradeZeolite2Cost", UpgradeZeolite2Cost.ToString());
-        PlayerPrefs.SetString("UpgradeZeolite3Cost", UpgradeZeolite3Cost.ToString());
-        PlayerPrefs.SetString("UpgradeCity1Cost", UpgradeCity1Cost.ToString());
-        PlayerPrefs.SetString("UpgradeCity2Cost", UpgradeCity2Cost.ToString());
-        PlayerPrefs.SetString("UpgradeCity3Cost", UpgradeCity3Cost.ToString());
-
-        PlayerPrefs.SetString("UpgradeLabor1Cost", UpgradeLabor1Cost.ToString());
-        PlayerPrefs.SetString("UpgradeLabor2Cost", UpgradeLabor2Cost.ToString());
-        PlayerPrefs.SetString("UpgradeLabor3Cost", UpgradeLabor3Cost.ToString());
-        PlayerPrefs.SetString("UpgradeLabor4Cost", UpgradeLabor4Cost.ToString());
-
-        PlayerPrefs.Save();
+        //배열끼리 더함 -> 더할 배열의 자릿수까지
+        for(int idx = 0;idx<AddArray.Length && AddArray[idx]!=0;idx++)
+            targetArray[idx]+=AddArray[idx];
+        CheckFlowValue(targetArray);
     }
-    // 데이터 로드 함수
-    public void LoadData()
+
+    // 배열에 정수 값을 더하는 함수
+    public void AddValue(int[] targetArray,int AddValue)
     {
-        beliver = long.Parse(PlayerPrefs.GetString("beliver", "0"));
-        gold = long.Parse(PlayerPrefs.GetString("gold", "0"));
-        tree = long.Parse(PlayerPrefs.GetString("tree", "0"));
-        bread = long.Parse(PlayerPrefs.GetString("bread", "0"));
-        rock = long.Parse(PlayerPrefs.GetString("rock", "0"));
+        if (targetArray.Length > 0)
+            targetArray[0]+=AddValue;
+        CheckFlowValue(targetArray);
+    }
 
-        missionary = long.Parse(PlayerPrefs.GetString("missionary", "0"));
-        fanatic = long.Parse(PlayerPrefs.GetString("fanatic", "0"));
-        cardinal = long.Parse(PlayerPrefs.GetString("cardinal", "0"));
-        adult = long.Parse(PlayerPrefs.GetString("adult", "0"));
-        dragoon = long.Parse(PlayerPrefs.GetString("dragoon", "0"));
+    public void CheckFlowValue(int[] targetArray)
+    {
+        //넘친게 있는지 확인
+        for(int idx = 0;idx<targetArray.Length-1 && targetArray[idx]!=0;idx++)
+        {
+            int rest;
+            if (targetArray[idx] >= 100000)
+            {
+                //변수에 일단 저장
+                rest = targetArray[idx]/100000;
+                targetArray[idx]%=100000;
+                //다음 배열에 저장해줌
+                targetArray[idx+1]+=rest;
+            }
+            //마지막 배열은 그냥 넘쳐도 버림
+            targetArray[targetArray.Length-1] = Math.Min(targetArray[targetArray.Length-1],99999);
+        }
+    }
+    public int CompareValue(int[] A, int[] B) 
+    {
+        if (A.Length > B.Length)
+            return 1;
+        else if (A.Length < B.Length)
+            return -1;
+        // 길이가 같다는 뜻
+        for (int i = A.Length - 1; i >= 0; i--) {
+            if (A[i] > B[i])
+                return 1;
+            else if (A[i] < B[i])
+                return -1;
+        }
+        // for문에서 걸리지 않았다면 같으므로
+        return 0;
+    }
+    public int CompareValue(int[] A,int value)
+    {
+        if (A.Length > 0 && A[0] > value)
+            return 1;
+        if (A.Length == 0 && A[0] < value)
+            return -1;
+        if (A[0] == value)
+            return 0;
+        int idx = 1;
+        int amount = 1;
+        while(value >= 100000)
+        {
+            value/=100000;
+            idx++;
+            amount*=100000;
+        }
+        if (A.Length > idx)
+            return 1;
+        //길이가 같다는 뜻
+        for(;idx>=0;idx--)
+        {
+            if (A[idx] > value/amount)
+                return 1;
+            if (A[idx] < value/amount)
+                return -1;
+        }
+        //같다는 뜻
+        return 0;
+    }
+    public bool SubValue(int[] targetArray,int[] SubArray)
+    {
+        //SubArray의 값이 더 크다면
+        int compare = CompareValue(targetArray,SubArray);
+        if (compare== -1)
+            return false;
+        if (compare==0)
+        {
+            //같으니까 다 빼면 0 배열
+            targetArray = new int[targetArray.Length];
+            return true;
+        }
+        int SubValue = 0;
+        for(int idx = 0;idx<SubArray.Length;idx++)
+        {
+            targetArray[idx]-=SubValue;
+            if (targetArray[idx] < SubArray[idx])
+            {
+                targetArray[idx] = 100000 + targetArray[idx]-SubArray[idx];
+                SubValue = 1;
+            }
+            else
+            {
+                targetArray[idx]-=SubArray[idx];
+                SubValue  = 0;
+            }
+        }
+        return true;
+    }
+    public bool SubValue(int[] targetArray,int SubValue)
+    {
+        int compare = CompareValue(targetArray,SubValue);
+        if (compare== -1)
+            return false;
+        if (compare == 0)
+        {
+            targetArray = new int[targetArray.Length];
+            return true;
+        }
+        int idx = 0;
+        while(SubValue!=0)
+        {
+            if (targetArray[idx] >= SubValue)
+            {
+                targetArray[idx]-=SubValue;
+                return true;
+            }
+            targetArray[idx] = 100000 + targetArray[idx]-SubValue;
+            //앞에서 땡겨올 거
+            SubValue = 1;
+            idx++;
+        }
+        return true;
+    }
 
-        hut = long.Parse(PlayerPrefs.GetString("hut", "0"));
-        church2 = long.Parse(PlayerPrefs.GetString("church2", "0"));
-        church3 = long.Parse(PlayerPrefs.GetString("church3", "0"));
-        zeolite1 = long.Parse(PlayerPrefs.GetString("zeolite1", "0"));
-        zeolite2 = long.Parse(PlayerPrefs.GetString("zeolite2", "0"));
-        zeolite3 = long.Parse(PlayerPrefs.GetString("zeolite3", "0"));
-        city1 = long.Parse(PlayerPrefs.GetString("city1", "0"));
-        city2 = long.Parse(PlayerPrefs.GetString("city2", "0"));
-        city3 = long.Parse(PlayerPrefs.GetString("city3", "0"));
+    // 돈 단위 변경 텍스트
 
-        Labor1 = long.Parse(PlayerPrefs.GetString("Labor1", "0"));
-        Labor2 = long.Parse(PlayerPrefs.GetString("Labor2", "0"));
-        Labor3 = long.Parse(PlayerPrefs.GetString("Labor3", "0"));
-        Labor4 = long.Parse(PlayerPrefs.GetString("Labor4", "0"));
+    public String SetText(int[] targetArray)
+    {
+        //제일 큰 단위를 찾음
+        int unitIdx;
+        for(unitIdx = 26;unitIdx>=0 && targetArray[unitIdx] == 0;unitIdx--){
 
-        UpgradeTreeCost = long.Parse(PlayerPrefs.GetString("UpgradeTreeCost", "0"));
-        UpgradeRockCost = long.Parse(PlayerPrefs.GetString("UpgradeRockCost", "0"));
-        UpgradeBreadCost = long.Parse(PlayerPrefs.GetString("UpgradeBreadCost", "0"));
+        }
+        if (unitIdx > 0) //단위가 2개 이상인 경우
+        {
+            return targetArray[unitIdx].ToString() + unit[unitIdx] + " " + targetArray[unitIdx-1].ToString() + unit[unitIdx-1];
+        }
+        else if (unitIdx == 0)//단위가 1개인 경우 -> 모든 배열의 합이 1000000 이하인 경우
+        {
+            return targetArray[unitIdx].ToString() + unit[unitIdx];
+        }
+        else //모두 빈 배열인 경우
+        {
+            return "";
+        }
+    }
 
-        UpgradeMissionaryCost = long.Parse(PlayerPrefs.GetString("UpgradeMissionaryCost", "0"));
-        UpgradeFanaticCost = long.Parse(PlayerPrefs.GetString("UpgradeFanaticCost", "0"));
-        UpgradeCardinalCost = long.Parse(PlayerPrefs.GetString("UpgradeCardinalCost", "0"));
-        UpgradeAdultCost = long.Parse(PlayerPrefs.GetString("UpgradeAdultCost", "0"));
-        UpgradeDragoonCost = long.Parse(PlayerPrefs.GetString("UpgradeDragoonCost", "0"));
+    public void OnButtonClickRock()
+    {
+        if (SubValue(gold,UpgradeRockCost) == false)
+            Debug.Log("골드 부족");
+        else 
+        {
+            //배열끼리 더하기
+            AddValue(rock,UpgradeRockCost);
 
-        UpgradeHutCost = long.Parse(PlayerPrefs.GetString("UpgradeHutCost", "0"));
-        UpgradeChurch2Cost = long.Parse(PlayerPrefs.GetString("UpgradeChurch2Cost", "0"));
-        UpgradeChurch3Cost = long.Parse(PlayerPrefs.GetString("UpgradeChurch3Cost", "0"));
-        UpgradeZeolite1Cost = long.Parse(PlayerPrefs.GetString("UpgradeZeolite1Cost", "0"));
-        UpgradeZeolite2Cost = long.Parse(PlayerPrefs.GetString("UpgradeZeolite2Cost", "0"));
-        UpgradeZeolite3Cost = long.Parse(PlayerPrefs.GetString("UpgradeZeolite3Cost", "0"));
-        UpgradeCity1Cost = long.Parse(PlayerPrefs.GetString("UpgradeCity1Cost", "0"));
-        UpgradeCity2Cost = long.Parse(PlayerPrefs.GetString("UpgradeCity2Cost", "0"));
-        UpgradeCity3Cost = long.Parse(PlayerPrefs.GetString("UpgradeCity3Cost", "0"));
+            //배열과 숫자 더하기
+            AddValue(UpgradeRockCost,UpgradeRockCost[0]);
+        }
 
-        UpgradeLabor1Cost = long.Parse(PlayerPrefs.GetString("UpgradeLabor1Cost", "0"));
-        UpgradeLabor2Cost = long.Parse(PlayerPrefs.GetString("UpgradeLabor2Cost", "0"));
-        UpgradeLabor3Cost = long.Parse(PlayerPrefs.GetString("UpgradeLabor3Cost", "0"));
-        UpgradeLabor4Cost = long.Parse(PlayerPrefs.GetString("UpgradeLabor4Cost", "0"));
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+        CostText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeRockCost);
+
+
+        //다음번에 획득할 수 있는 양
+        AmountText.text = "재화 획득 : " + SetText(rock);
+    }
+
+    public void OnButtonClickTree()
+    {
+        if (SubValue(gold,UpgradeTreeCost) == false)
+            Debug.Log("골드 부족");
+        else
+        {
+            AddValue(tree,UpgradeTreeCost);
+            AddValue(UpgradeTreeCost,UpgradeTreeCost[0]);
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+        CostText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeTreeCost);
+
+        AmountText.text = "재화 획득 : " + SetText(tree);
+    }
+
+    public void OnButtonClickBread()
+    {
+        if (SubValue(gold,UpgradeBreadCost) == false)
+            Debug.Log("골드 부족");
+        else
+        {
+            AddValue(bread,UpgradeBreadCost);
+            AddValue(UpgradeBreadCost,UpgradeBreadCost[0]);
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeBreadCost);
+
+        AmountText.text = "재화 획득 : " + SetText(bread);
+    }
+    
+    //선교사는 골드로 살 수 있음
+    public void OnButtonClickMissionary()
+    {
+        if (SubValue(gold,UpgradeMissionaryCost) == false)
+            Debug.Log("골드 부족");
+        else
+        {
+            //초당 신도수 증가율을 높여주기
+            AddValue(beliverGetTime,missionary);
+
+            //얻을 수 있는 증가율 바꿔주기
+            AddValue(missionary,10);
+            
+            //비용 올려주기
+            AddValue(UpgradeMissionaryCost,UpgradeMissionaryCost[0]);
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeMissionaryCost);
+
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(missionary) + "/s";
+    
+    }
+    public void OnButtonClickFanatic()
+    {
+        if (SubValue(gold,UpgradeFanaticCost) == false)
+            Debug.Log("골드 부족");
+        else
+        {
+            //초당 신도수 증가율을 높여주기
+            AddValue(beliverGetTime,fanatic);
+
+            //얻을 수 있는 증가율 바꿔주기
+            AddValue(fanatic,10);
+            
+            //비용 올려주기
+            AddValue(UpgradeFanaticCost,UpgradeFanaticCost[0]);
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeFanaticCost);
+
+        AmountText.text = "초당 신도수 : "  + SetText(fanatic) + "/s";
+
+    }
+
+    //추기경
+    public void OnButtonClickCardinal()
+    {
+        if (SubValue(gold,UpgradeCardinalCost) == false)
+            Debug.Log("골드 부족");
+        else
+        {
+            //초당 신도수 증가율을 높여주기
+            AddValue(beliverGetTime,cardinal);
+
+            //얻을 수 있는 증가율 바꿔주기
+            AddValue(fanatic,10);
+            
+            //비용 올려주기
+            AddValue(UpgradeCardinalCost,UpgradeCardinalCost[0]);
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeCardinalCost);
+
+        AmountText.text = "초당 신도수 : "  + SetText(cardinal) + "/s";
+
+    }
+    //메시아
+    public void OnButtonClickMessia()
+    {
+        if (SubValue(gold,UpgradeMessiaCost) == false)
+            Debug.Log("골드 부족");
+        else
+        {
+            //초당 신도수 증가율을 높여주기
+            AddValue(beliverGetTime,messia);
+
+            //얻을 수 있는 증가율 바꿔주기
+            AddValue(messia,10);
+            
+            //비용 올려주기
+            AddValue(UpgradeMessiaCost,UpgradeMessiaCost[0]);
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeMessiaCost);
+
+        AmountText.text = "초당 신도수 : "  + SetText(messia) + "/s";
+
+    }
+    //달빛치료사
+    public void OnButtonClickdocter()
+    {
+        if (SubValue(gold,UpgradeDoctorCost) == false)
+            Debug.Log("골드 부족");
+        else
+        {
+            //초당 신도수 증가율을 높여주기
+            AddValue(beliverGetTime,doctor);
+
+            //얻을 수 있는 증가율 바꿔주기
+            AddValue(doctor,10);
+            
+            //비용 올려주기
+            AddValue(UpgradeDoctorCost,UpgradeDoctorCost[0]);
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeDoctorCost);
+
+        AmountText.text = "초당 신도수 : " + SetText(doctor) + "/s";
+
+    }
+
+    // 빌딩 -> 빌딩은 생산력으로 살 수 있음
+    public void OnButtonClickHut()
+    {
+        if (SubValue(Labor,UpgradeHutCost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,hut);
+            AddValue(hut,UpgradeHutCost[0]);
+            AddValue(UpgradeHutCost,UpgradeHutCost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeHutCost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(hut) + "/s";
+    }
+    public void OnButtonClickChurch2()
+    {
+        if (CompareValue(beliver,100) == -1 || SubValue(Labor,UpgradeChurch2Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,church2);
+            AddValue(hut,UpgradeChurch2Cost[0]);
+            AddValue(UpgradeChurch2Cost,UpgradeChurch2Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeChurch2Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(church2) + "/s";
+    }
+    public void OnButtonClickChurch3()
+    {
+        if (CompareValue(beliver,1000) == -1 || SubValue(Labor,UpgradeChurch3Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,church3);
+            AddValue(hut,UpgradeChurch3Cost[0]);
+            AddValue(UpgradeChurch3Cost,UpgradeChurch3Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeChurch3Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(church3) + "/s";
+    }
+    public void OnButtonClickStone1()
+    {
+        if (CompareValue(beliver,2000) == -1 || SubValue(Labor,UpgradeStone1Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,stone1);
+            AddValue(stone1,UpgradeStone1Cost[0]);
+            AddValue(UpgradeStone1Cost,UpgradeStone1Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeStone1Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(stone1) + "/s";
+    }
+    public void OnButtonClickStone2()
+    {
+        if (CompareValue(beliver,4000) == -1 || SubValue(Labor,UpgradeStone2Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,stone2);
+            AddValue(stone2,UpgradeStone1Cost[0]);
+            AddValue(UpgradeStone1Cost,UpgradeStone1Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeStone1Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(stone2) + "/s";
+    }
+    public void OnButtonClickStone3()
+    {
+        if (CompareValue(beliver,8000) == -1 || SubValue(Labor,UpgradeStone3Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,stone3);
+            AddValue(stone3,UpgradeStone3Cost[0]);
+            AddValue(UpgradeStone3Cost,UpgradeStone3Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(5).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(5).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeStone3Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(stone3) + "/s";
+    }
+    public void OnButtonClickHouse1()
+    {
+        if (CompareValue(beliver,16000) == -1 || SubValue(Labor,UpgradeHouse1Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,house1);
+            AddValue(house1,UpgradeHouse1Cost[0]);
+            AddValue(UpgradeHouse1Cost,UpgradeHouse1Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(6).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(6).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeHouse1Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(house1) + "/s";
+    }
+    public void OnButtonClickHouse2()
+    {
+        if (CompareValue(beliver,32000) == -1 || SubValue(Labor,UpgradeHouse2Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,house2);
+            AddValue(house2,UpgradeHouse2Cost[0]);
+            AddValue(UpgradeHouse2Cost,UpgradeHouse2Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(7).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(7).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeHouse2Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(house2) + "/s";
+    }
+    public void OnButtonClickHouse3()
+    {
+        if (CompareValue(beliver,64000) == -1 || SubValue(Labor,UpgradeHouse1Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,house3);
+            AddValue(house3,UpgradeHouse3Cost[0]);
+            AddValue(UpgradeHouse3Cost,UpgradeHouse3Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(8).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(8).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeHouse3Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(house3) + "/s";
+    }
+    public void OnButtonClickCatStone1()
+    {
+        if (CompareValue(beliver,128000) == -1 || SubValue(Labor,UpgradeCatStone1Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,catstone1);
+            AddValue(catstone1,UpgradeCatStone1Cost[0]);
+            AddValue(UpgradeCatStone1Cost,UpgradeCatStone1Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(9).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(9).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeCatStone1Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(catstone1) + "/s";
+    }
+    public void OnButtonClickCatStone2()
+    {
+        if (CompareValue(beliver,256000) == -1 || SubValue(Labor,UpgradeCatStone2Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,catstone2);
+            AddValue(catstone2,UpgradeCatStone2Cost[0]);
+            AddValue(UpgradeCatStone2Cost,UpgradeCatStone2Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(10).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(10).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeCatStone2Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(catstone2) + "/s";
+    }
+        public void OnButtonClickCatStone3()
+    {
+        if (CompareValue(beliver,512000) == -1 || SubValue(Labor,UpgradeCatStone3Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,catstone3);
+            AddValue(catstone3,UpgradeCatStone3Cost[0]);
+            AddValue(UpgradeCatStone3Cost,UpgradeCatStone3Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(11).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(11).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeCatStone3Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(catstone3) + "/s";
+    }
+    public void OnButtonClickStatue1()
+    {
+        if (CompareValue(beliver,1024000) == -1 || SubValue(Labor,UpgradeStatue1Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,statue1);
+            AddValue(statue1,UpgradeStatue1Cost[0]);
+            AddValue(UpgradeStatue1Cost,UpgradeStatue1Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(12).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(12).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeStatue1Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(statue1) + "/s";
+    }
+        public void OnButtonClickStatue2()
+    {
+        if (CompareValue(beliver,2048000) == -1 || SubValue(Labor,UpgradeStatue2Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,statue2);
+            AddValue(statue2,UpgradeStatue2Cost[0]);
+            AddValue(UpgradeStatue2Cost,UpgradeStatue2Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(13).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(13).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeStatue2Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(statue2) + "/s";
+    }
+    public void OnButtonClickStatue3()
+    {
+        if (CompareValue(beliver,5012000) == -1 || SubValue(Labor,UpgradeStatue3Cost) == false)
+            Debug.Log("노동력 부족");
+        else
+        {
+            AddValue(beliverGetGold,statue3);
+            AddValue(statue3,UpgradeStatue3Cost[0]);
+            AddValue(UpgradeStatue3Cost,UpgradeStatue3Cost[0]);
+
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(14).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(14).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        //이제 텍스트 변경
+        CostText.text = "X " + SetText(UpgradeStatue3Cost);
+        AmountText.text = "신도 수당 골드 획득량 : " + SetText(statue3) + "/s";
+    }
+    
+    public void OnButtonClickLabor()
+    {
+        if (CompareValue(rock,UpgradeLaborCost) == -1 || CompareValue(tree,UpgradeLaborCost) == -1  || CompareValue(bread,UpgradeLaborCost) == -1 )
+            Debug.Log("재료 부족");
+        else
+        {
+            AddValue(Labor,random.Next() * (100000 - 20) + 20);
+            AddValue(UpgradeLaborCost,UpgradeLaborCost[0]);
+        }
+        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+
+        WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeLaborCost);
+        WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeLaborCost);
+        WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeLaborCost);
     }
     //버튼 클릭 함수
     public void ResourceButton_Click()
@@ -306,491 +1012,184 @@ public class GameManager : MonoBehaviour
         BuildingPanel.SetActive(false);
         WeaponPanel.SetActive(true);
     }
-    // 현재 재화 수 반환 함수
-    public long GetGold() {return Instance.gold;}
-    public long GetBeliver() {return Instance.beliver;}
-    public long GetRock() {return Instance.rock;}
-    public long GetTree(){return Instance.tree;}
-    public long GetBread(){return Instance.bread;}
-    public long GetMissionary() {return Instance.missionary;}
-    public long GetFanatic() {return Instance.fanatic;}
-    public long GetCardinal(){return Instance.cardinal;}
-    public long GetAdult(){return Instance.adult;}
-    public long GetDragoon() {return Instance.dragoon;}
-    public long GetHut() {return Instance.hut;}
-    public long GetChurch2(){return Instance.church2;}
-    public long GetChurch3(){return Instance.church3;}
-    public long GetZeolite1() {return Instance.zeolite1;}
-    public long GetZeolite2() {return Instance.zeolite2;}
-    public long GetZeolite3(){return Instance.zeolite3;}
-    public long GetCity1(){return Instance.city1;}
-    public long GetCity2(){return Instance.city2;}
-    public long GetCity3(){return Instance.city3;}
-    public long GetLabor1(){return Instance.Labor1;}
-    public long GetLabor2(){return Instance.Labor2;}
-    public long GetLabor3(){return Instance.Labor3;}
-    public long GetLabor4(){return Instance.Labor4;}
+    public void SaveGameData()
+{
+    // 재화
+    SaveIntArray("beliver", beliver);
+    SaveIntArray("gold", gold);
+    SaveIntArray("tree", tree);
+    SaveIntArray("bread", bread);
+    SaveIntArray("rock", rock);
+    SaveIntArray("GoldGetAmount", GoldGetAmount);
 
-    //재화 수 증가 함수
+    // 선교사
+    SaveIntArray("missionary", missionary);
+    SaveIntArray("fanatic", fanatic);
+    SaveIntArray("cardinal", cardinal);
+    SaveIntArray("messia", messia);
+    SaveIntArray("doctor", doctor);
 
-    public long AddGold(long amount) { Instance.gold+=amount;SetUIText(); return Instance.gold; }
-    public long AddBeliver(long amount) { Instance.beliver+=amount;SetUIText(); return Instance.beliver; }
-    public long AddRock(long amount) { Instance.rock+=amount;SetUIText(); return Instance.rock; }
-    public long AddTree(long amount){ Instance.tree+=amount;SetUIText(); return Instance.tree; }
-    public long AddBread(long amount){ Instance.bread+=amount;SetUIText(); return Instance.bread; }
-    public long AddMissionary(long amount) { Instance.missionary+=amount;SetUIText(); return Instance.missionary; }
-    public long AddFanatic(long amount) { Instance.fanatic+=amount;SetUIText(); return Instance.fanatic; }
-    public long AddCardinal(long amount){ Instance.cardinal+=amount;SetUIText(); return Instance.cardinal; }
-    public long AddAdult(long amount){ Instance.adult+=amount;SetUIText(); return Instance.adult; }
-    public long AddDragoon(long amount) { Instance.dragoon+=amount;SetUIText(); return Instance.dragoon; }
-    public long AddHut(long amount) { Instance.hut+=amount;SetUIText(); return Instance.hut; }
-    public long AddChurch2(long amount){ Instance.church2+=amount;SetUIText(); return Instance.church2; }
-    public long AddChurch3(long amount){ Instance.church3+=amount;SetUIText(); return Instance.church3; }
-    public long AddZeolite1(long amount) { Instance.zeolite1+=amount;SetUIText(); return Instance.zeolite1; }
-    public long AddZeolite2(long amount) { Instance.zeolite2+=amount;SetUIText(); return Instance.zeolite2; }
-    public long AddZeolite3(long amount){ Instance.zeolite3+=amount;SetUIText(); return Instance.zeolite3; }
-    public long AddCity1(long amount){ Instance.city1+=amount;SetUIText(); return Instance.city1; }
-    public long AddCity2(long amount){ Instance.city2+=amount;SetUIText(); return Instance.city2; }
-    public long AddCity3(long amount){ Instance.city3+=amount;SetUIText(); return Instance.city3; }
-    public long AddLabor1(long amount){ Instance.Labor1+=amount;SetUIText(); return Instance.Labor1; }
-    public long AddLabor2(long amount){ Instance.Labor2+=amount;SetUIText(); return Instance.Labor2; }
-    public long AddLabor3(long amount){ Instance.Labor3+=amount;SetUIText(); return Instance.Labor3; }
-    public long AddLabor4(long amount){ Instance.Labor4+=amount;SetUIText(); return Instance.Labor4; }
+    // 건물
+    SaveIntArray("hut", hut);
+    SaveIntArray("church2", church2);
+    SaveIntArray("church3", church3);
+    SaveIntArray("stone1", stone1);
+    SaveIntArray("stone2", stone2);
+    SaveIntArray("stone3", stone3);
+    SaveIntArray("house1", house1);
+    SaveIntArray("house2", house2);
+    SaveIntArray("house3", house3);
+    SaveIntArray("catstone1", catstone1);
+    SaveIntArray("catstone2", catstone2);
+    SaveIntArray("catstone3", catstone3);
+    SaveIntArray("statue1", statue1);
+    SaveIntArray("statue2", statue2);
+    SaveIntArray("statue3", statue3);
 
-    //재화 수 감소 함수
-    public long SubGold(long amount) { Instance.gold-=amount;SetUIText(); return Instance.gold; }
-    public long SubBeliver(long amount) { Instance.beliver-=amount;SetUIText(); return Instance.beliver; }
-    public long SubRock(long amount) { Instance.rock-=amount;SetUIText(); return Instance.rock; }
-    public long SubTree(long amount){ Instance.tree-=amount;SetUIText(); return Instance.tree; }
-    public long SubBread(long amount){ Instance.bread-=amount;SetUIText(); return Instance.bread; }
-    public long SubMissionary(long amount) { Instance.missionary-=amount;SetUIText(); return Instance.missionary; }
-    public long SubFanatic(long amount) { Instance.fanatic-=amount;SetUIText(); return Instance.fanatic; }
-    public long SubCardinal(long amount){ Instance.cardinal-=amount;SetUIText(); return Instance.cardinal; }
-    public long SubAdult(long amount){ Instance.adult-=amount;SetUIText(); return Instance.adult; }
-    public long SubDragoon(long amount) { Instance.dragoon-=amount;SetUIText(); return Instance.dragoon; }
-    public long SubHut(long amount) { Instance.hut-=amount;SetUIText(); return Instance.hut; }
-    public long SubChurch2(long amount){ Instance.church2-=amount;SetUIText(); return Instance.church2; }
-    public long SubChurch3(long amount){ Instance.church3-=amount;SetUIText(); return Instance.church3; }
-    public long SubZeolite1(long amount) { Instance.zeolite1-=amount;SetUIText(); return Instance.zeolite1; }
-    public long SubZeolite2(long amount) { Instance.zeolite2-=amount;SetUIText(); return Instance.zeolite2; }
-    public long SubZeolite3(long amount){ Instance.zeolite3-=amount;SetUIText(); return Instance.zeolite3; }
-    public long SubCity1(long amount){ Instance.city1-=amount;SetUIText(); return Instance.city1; }
-    public long SubCity2(long amount){ Instance.city2-=amount;SetUIText(); return Instance.city2; }
-    public long SubCity3(long amount){ Instance.city3-=amount;SetUIText(); return Instance.city3; }
-    public long SubLabor1(long amount){ Instance.Labor1-=amount;SetUIText(); return Instance.Labor1; }
-    public long SubLabor2(long amount){ Instance.Labor2-=amount;SetUIText(); return Instance.Labor2; }
-    public long SubLabor3(long amount){ Instance.Labor3-=amount;SetUIText(); return Instance.Labor3; }
-    public long SubLabor4(long amount){ Instance.Labor4-=amount;SetUIText(); return Instance.Labor4; }
+    // 노동력
+    SaveIntArray("Labor", Labor);
 
+    // 기준 비용
+    SaveIntArray("UpgradeTreeCost", UpgradeTreeCost);
+    SaveIntArray("UpgradeRockCost", UpgradeRockCost);
+    SaveIntArray("UpgradeBreadCost", UpgradeBreadCost);
 
-    //현재 재화의 양, 필요한 돈 바꾸기 위한 변수
+    // 선교사 업그레이드 비용
+    SaveIntArray("UpgradeMissionaryCost", UpgradeMissionaryCost);
+    SaveIntArray("UpgradeFanaticCost", UpgradeFanaticCost);
+    SaveIntArray("UpgradeCardinalCost", UpgradeCardinalCost);
+    SaveIntArray("UpgradeMessiaCost", UpgradeMessiaCost);
+    SaveIntArray("UpgradeDoctorCost", UpgradeDoctorCost);
 
-    //버튼에는 골드가 저장 , amount 에는 현재 재화의 양을 저장
+    // 건물 업그레이드 비용
+    SaveIntArray("UpgradeHutCost", UpgradeHutCost);
+    SaveIntArray("UpgradeChurch2Cost", UpgradeChurch2Cost);
+    SaveIntArray("UpgradeChurch3Cost", UpgradeChurch3Cost);
+    SaveIntArray("UpgradeStone1Cost", UpgradeStone1Cost);
+    SaveIntArray("UpgradeStone2Cost", UpgradeStone2Cost);
+    SaveIntArray("UpgradeStone3Cost", UpgradeStone3Cost);
+    SaveIntArray("UpgradeHouse1Cost", UpgradeHouse1Cost);
+    SaveIntArray("UpgradeHouse2Cost", UpgradeHouse2Cost);
+    SaveIntArray("UpgradeHouse3Cost", UpgradeHouse3Cost);
+    SaveIntArray("UpgradeCatStone1Cost", UpgradeCatStone1Cost);
+    SaveIntArray("UpgradeCatStone2Cost", UpgradeCatStone2Cost);
+    SaveIntArray("UpgradeCatStone3Cost", UpgradeCatStone3Cost);
+    SaveIntArray("UpgradeStatue1Cost",UpgradeStatue1Cost);
+    SaveIntArray("UpgradeStatue2Cost",UpgradeStatue2Cost);
+    SaveIntArray("UpgradeStatue3Cost",UpgradeStatue3Cost);
+    SaveIntArray("UpgradeLaborCost", UpgradeLaborCost);
 
-    TextMeshProUGUI CostText;
-    TextMeshProUGUI AmountText;
+    SaveIntArray("beliverGetGold",beliverGetGold);
+    SaveIntArray("beliverGetTime",beliverGetTime);
 
+    // 저장 완료
+    PlayerPrefs.Save();
+}
+public void LoadGameData()
+{
+    // 재화
+    beliver = LoadIntArray("beliver",20);
+    gold = LoadIntArray("gold",20);
+    tree = LoadIntArray("tree",10);
+    bread = LoadIntArray("bread",100);
+    rock = LoadIntArray("rock",100);
+    GoldGetAmount = LoadIntArray("GoldGetAmount",100);
 
-    //버튼 클릭 재화 함수 -> 텍스트, 버튼 텍스트 모두 변경
-    public void OnButtonClickRock()
-    {
+    // 선교사
+    missionary = LoadIntArray("missionary",100);
+    fanatic = LoadIntArray("fanatic",10);
+    cardinal = LoadIntArray("cardinal",10);
+    messia = LoadIntArray("messia",10);
+    doctor = LoadIntArray("doctor",10);
 
-        if (GetLabor1() <= UpgradeRockCost)
-            Debug.Log("노동력 부족");
-        else 
-        {
-            SubLabor1(UpgradeRockCost);
-            AddRock(UpgradeRockCost);
-        }
+    // 건물
+    hut = LoadIntArray("hut",10);
+    church2 = LoadIntArray("church2",20);
+    church3 = LoadIntArray("church3",30);
+    stone1 = LoadIntArray("stone1",30);
+    stone2 = LoadIntArray("stone2",10);
+    stone3 = LoadIntArray("stone3",20);
+    house1 = LoadIntArray("house1",30);
+    house2 = LoadIntArray("house2",10);
+    house3 = LoadIntArray("house3",11);
+    catstone1 = LoadIntArray("catstone1",12);
+    catstone2 = LoadIntArray("catstone2",10);
+    catstone3 = LoadIntArray("catstone3",20);
+    statue1 = LoadIntArray("statue1",40);
+    statue2 = LoadIntArray("statue2",50);
+    statue3 = LoadIntArray("statue3",60);
 
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-        CostText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+    // 노동력
+    Labor = LoadIntArray("Labor",10);
 
-        //이제 텍스트 변경
-        CostText.text = UpgradeRockCost+"";
-        AmountText.text = GetRock()+"";
-    }
-    public void OnButtonClickTree()
-    {
-        if (GetLabor1() <= UpgradeTreeCost)
-            Debug.Log("노동력 부족");
-        else
-                {
-            SubLabor1(UpgradeTreeCost);
-            AddTree(UpgradeTreeCost);
-        }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-        CostText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeTreeCost+"";
-        AmountText.text = GetTree()+"";
-    }
-    public void OnButtonClickBread()
-    {
-        if (GetLabor1() <= UpgradeBreadCost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeBreadCost);
-            AddBread(UpgradeBreadCost);
-        }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+    // 기준 비용
+    UpgradeTreeCost = LoadIntArray("UpgradeTreeCost",100);
+    UpgradeRockCost = LoadIntArray("UpgradeRockCost",100);
+    UpgradeBreadCost = LoadIntArray("UpgradeBreadCost",100);
 
-        CostText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeBreadCost+"";
-        AmountText.text = GetBread()+"";
-    }
-    public void OnButtonClickMissionary()
-    {
-        if (GetLabor1() <= UpgradeMissionaryCost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeMissionaryCost);
-            AddMissionary(UpgradeMissionaryCost);
-        }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
+    // 선교사 업그레이드 비용
+    UpgradeMissionaryCost = LoadIntArray("UpgradeMissionaryCost",100);
+    UpgradeFanaticCost = LoadIntArray("UpgradeFanaticCost",100);
+    UpgradeCardinalCost = LoadIntArray("UpgradeCardinalCost",100);
+    UpgradeMessiaCost = LoadIntArray("UpgradeMessiaCost",100);
+    UpgradeDoctorCost = LoadIntArray("UpgradeDoctorCost",100);
 
-        CostText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeMissionaryCost+"";
-        AmountText.text = GetMissionary()+"";
+    // 건물 업그레이드 비용
+    UpgradeHutCost = LoadIntArray("UpgradeHutCost",100);
+    UpgradeChurch2Cost = LoadIntArray("UpgradeChurch2Cost",100);
+    UpgradeChurch3Cost = LoadIntArray("UpgradeChurch3Cost",100);
+    UpgradeStone1Cost = LoadIntArray("UpgradeStone1Cost",100);
+    UpgradeStone2Cost = LoadIntArray("UpgradeStone2Cost",100);
+    UpgradeStone3Cost = LoadIntArray("UpgradeStone3Cost",100);
+    UpgradeHouse1Cost = LoadIntArray("UpgradeHouse1Cost",100);
+    UpgradeHouse2Cost = LoadIntArray("UpgradeHouse2Cost",100);
+    UpgradeHouse3Cost = LoadIntArray("UpgradeHouse3Cost",100);
+    UpgradeCatStone1Cost = LoadIntArray("UpgradeCatStone1Cost",100);
+    UpgradeCatStone2Cost = LoadIntArray("UpgradeCatStone2Cost",100);
+    UpgradeCatStone3Cost = LoadIntArray("UpgradeCatStone3Cost",100);
+    UpgradeStatue1Cost = LoadIntArray("UpgradeStatue1Cost",100);
+    UpgradeStatue2Cost = LoadIntArray("UpgradeStatue2Cost",100);
+    UpgradeStatue3Cost = LoadIntArray("UpgradeStatue3Cost",100);
+    UpgradeLaborCost = LoadIntArray("UpgradeLaborCost",10);
     
-    }
-    public void OnButtonClickFanatic()
+    beliverGetGold = LoadIntArray("beliverGetGold",10);
+    beliverGetTime = LoadIntArray("beliverGetTime",15);
+}
+
+    public void SaveIntArray(string key, int[] array)
     {
-        if (GetLabor1() <= UpgradeFanaticCost)
-            Debug.Log("노동력 부족");
-        else
+        if (array == null || array.Length == 0)
         {
-            SubLabor1(UpgradeFanaticCost);
-            AddFanatic(UpgradeFanaticCost);
+            // 비어있는 배열을 저장할 때는 빈 문자열로 저장
+            PlayerPrefs.SetString(key, string.Empty);
         }
-                //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeFanaticCost+"";
-        AmountText.text = GetFanatic()+"";
-    }
-    public void OnButtonClickCardinal()
-    {
-        if (GetLabor1() <= UpgradeCardinalCost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeCardinalCost);
-            AddCardinal(UpgradeCardinalCost);
-        }
-
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeCardinalCost+"";
-        AmountText.text = GetCardinal()+"";
-        
-        
-        
-    }
-    public void OnButtonClickAdult()
-    {
-        if (GetLabor1() <= UpgradeMissionaryCost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeAdultCost);
-            AddAdult(UpgradeAdultCost);
-        }
-                //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeMissionaryCost+"";
-        AmountText.text = GetAdult()+"";
-    }
-    public void OnButtonClickDragoon()
-    {
-        if (GetLabor1() <= UpgradeDragoonCost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeDragoonCost);
-            AddDragoon(UpgradeDragoonCost);
-        }
-
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = MissionaryPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeDragoonCost+"";
-        AmountText.text = GetDragoon()+"";
-    }
-    public void OnButtonClickHut()
-    {
-        if (GetLabor1() <= UpgradeHutCost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeHutCost);
-            AddHut(UpgradeHutCost);
-        }
-                //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeHutCost+"";
-        AmountText.text = GetHut()+"";
-    }
-    public void OnButtonClickChurch2()
-    {
-        if (GetLabor1() <= UpgradeChurch2Cost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeChurch2Cost);
-            AddChurch2(UpgradeChurch2Cost);
-        }
-                        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeChurch2Cost+"";
-        AmountText.text = GetChurch2()+"";
-    }
-    public void OnButtonClickChurch3()
-    {
-        if (GetLabor1() <= UpgradeChurch3Cost)
-            Debug.Log("노동력 부족");
         else{
-
-            SubLabor1(UpgradeChurch3Cost);
-            AddChurch3(UpgradeChurch3Cost);
+            string arrayString = string.Join(",", array);
+            PlayerPrefs.SetString(key, arrayString);
         }
 
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeChurch3Cost+"";
-        AmountText.text = GetChurch3()+"";
-    }
-    public void OnButtonClickZeolite1()
-    {
-        if (GetLabor1() <= UpgradeZeolite1Cost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeZeolite1Cost);
-            AddZeolite1(UpgradeZeolite1Cost);
-        }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeZeolite1Cost+"";
-        AmountText.text = GetZeolite1()+"";
-    }
-    public void OnButtonClickZeolite2()
-    {
-        if (GetLabor1() <= UpgradeZeolite2Cost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeZeolite2Cost);
-            AddZeolite2(UpgradeZeolite2Cost);
-        }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(4).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeZeolite2Cost+"";
-        AmountText.text = GetZeolite2()+"";
-    }
-    public void OnButtonClickZeolite3()
-    {
-        if (GetLabor1() <= UpgradeZeolite3Cost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeZeolite3Cost);
-            AddZeolite2(UpgradeZeolite3Cost);
-        }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(5).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(5).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeZeolite3Cost+"";
-        AmountText.text = GetZeolite3()+"";
-    }
-    public void OnButtonClickCity1()
-    {
-        if (GetLabor1() <= UpgradeCity1Cost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeCity1Cost);
-            AddCity1(UpgradeCity1Cost);
-        }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(6).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(6).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeCity1Cost+"";
-        AmountText.text = GetCity1()+"";
-    }
-    public void OnButtonClickCity2()
-    {
-        if (GetLabor1() <= UpgradeCity2Cost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeCity2Cost);
-            AddCity1(UpgradeCity2Cost);
-        }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(7).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(7).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeCity2Cost+"";
-        AmountText.text = GetCity2()+"";
-    }
-    public void OnButtonClickCity3()
-    {
-        if (GetLabor1() <= UpgradeCity3Cost)
-            Debug.Log("노동력 부족");
-        else
-        {
-            SubLabor1(UpgradeCity3Cost);
-            AddCity3(UpgradeCity3Cost);
-        }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(8).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(8).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeCity3Cost+"";
-        AmountText.text = GetCity3()+"";
     }
 
-    // 노동력 획득
-    
-       public void OnButtonClickLabor1()
+    public int[] LoadIntArray(string key,int initNum)
     {
-        if (GetRock() <= UpgradeLabor1Cost || GetBread() <= UpgradeLabor1Cost || GetTree() <= UpgradeLabor1Cost)
-            Debug.Log("재료 부족");
-        else
+        string arrayString = PlayerPrefs.GetString(key, string.Empty);
+        if (string.IsNullOrEmpty(arrayString))
         {
-            SubRock(UpgradeLabor1Cost);
-            SubBread(UpgradeLabor1Cost);
-            SubTree(UpgradeLabor1Cost);
-
-            AddLabor1((long)(random.NextDouble() * (Maxrandom - MinRandom) + MinRandom));
+            int[] array = new int[27];
+            array[0] = initNum;
+            return array;
         }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
 
-        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeLabor1Cost+"";
-        AmountText.text = GetLabor1()+"";
-    }
-           public void OnButtonClickLabor2()
-    {
-        if (GetRock() <= UpgradeLabor2Cost || GetBread() <= UpgradeLabor2Cost || GetTree() <= UpgradeLabor2Cost)
-            Debug.Log("재료 부족");
-        else
+        string[] stringArray = arrayString.Split(',');
+
+        int[] intArray = new int[stringArray.Length];
+
+        for (int i = 0; i < stringArray.Length; i++)
         {
-            SubRock(UpgradeLabor2Cost);
-            SubBread(UpgradeLabor2Cost);
-            SubTree(UpgradeLabor2Cost);
-
-            AddLabor2((long)(random.NextDouble() * (Maxrandom - MinRandom) + MinRandom));
+            intArray[i] = int.Parse(stringArray[i]);
         }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
 
-        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeLabor2Cost+"";
-        AmountText.text = GetLabor2()+"";
-    }
-           public void OnButtonClickLabor3()
-    {
-        if (GetRock() <= UpgradeLabor3Cost || GetBread() <= UpgradeLabor3Cost || GetTree() <= UpgradeLabor3Cost)
-            Debug.Log("재료 부족");
-        else
-        {
-            SubRock(UpgradeLabor3Cost);
-            SubBread(UpgradeLabor3Cost);
-            SubTree(UpgradeLabor3Cost);
-
-            AddLabor3((long)(random.NextDouble() * (Maxrandom - MinRandom) + MinRandom));
-        }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeLabor3Cost+"";
-        AmountText.text = GetLabor3()+"";
-    }
-    public void OnButtonClickLabor4()
-    {
-        if (GetRock() <= UpgradeLabor4Cost || GetBread() <= UpgradeLabor4Cost || GetTree() <= UpgradeLabor4Cost)
-            Debug.Log("재료 부족");
-        else
-        {
-            SubRock(UpgradeLabor4Cost);
-            SubBread(UpgradeLabor4Cost);
-            SubTree(UpgradeLabor4Cost);
-
-            AddLabor4((long)(random.NextDouble() * (Maxrandom - MinRandom) + MinRandom));
-        }
-        //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
-
-        CostText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        AmountText = WeaponPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        
-        //이제 텍스트 변경
-        CostText.text = UpgradeLabor4Cost+"";
-        AmountText.text = GetLabor4()+"";
+        return intArray;
     }
 }
     
