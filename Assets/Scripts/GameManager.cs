@@ -509,6 +509,7 @@ public class GameManager : MonoBehaviour
 
         //다음번에 획득할 수 있는 양
         AmountText.text = "재화 획득 : " + SetText(rock);
+        rockText.text = SetText(rock);
     }
 
     public void OnButtonClickTree()
@@ -532,6 +533,7 @@ public class GameManager : MonoBehaviour
 
         AmountText.text = "재화 획득 : " + SetText(tree);
         SoundManager.Instance.Play("pop1");
+        treeText.text = SetText(tree);
     }
 
     public void OnButtonClickBread()
@@ -556,6 +558,7 @@ public class GameManager : MonoBehaviour
 
         AmountText.text = "재화 획득 : " + SetText(bread);
         SoundManager.Instance.Play("pop1");
+        breadText.text = SetText(bread);
     }
     
     //선교사는 골드로 살 수 있음
