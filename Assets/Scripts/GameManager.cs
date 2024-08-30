@@ -161,6 +161,8 @@ public class GameManager : MonoBehaviour
         isLoading = true;
         LoadGameData();
         //텍스트 업로드
+
+
         SetUIText();
         //초기 가시화 설정
         random = new System.Random();
@@ -172,8 +174,9 @@ public class GameManager : MonoBehaviour
         {
             // 시간 누적
             timer += Time.deltaTime;
+            SaveTime += Time.deltaTime;
 
-            if (timer >= 10f)
+            if (timer >= 3f)
             {
                 //초에 따라서 골드 얻기
                 AddValue(gold,GoldGetAmount);
@@ -191,13 +194,15 @@ public class GameManager : MonoBehaviour
                 }
                 goldText.text = SetText(gold);
                 beliverText.text = SetText(beliver);
+
+                timer = 0f;
             }
             // 일정 시간 간격이 지났는지 확인
-            if (timer >= SaveTime)
+            if (10f >= SaveTime)
             {
                 SaveGameData();
 
-                timer = 0f;
+                SaveTime = 0f;
             }
         }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class SoundManager : MonoBehaviour
@@ -46,6 +47,8 @@ public class SoundManager : MonoBehaviour
     private float soundVolume = 1.0f;
     private float bgmVolume = 1.0f;
 
+    public Slider bgmSlider; // BGM 볼륨 조절 슬라이더
+
     Coroutine soundCoolTimeCoroutine = null;
 
 
@@ -78,7 +81,19 @@ public class SoundManager : MonoBehaviour
         LoadAudio();
 
         PlayBGM("bgm01");
+        if (bgmSlider != null)
+        {
+            bgmSlider.value = BGMVolume;
+            bgmSlider.onValueChanged.AddListener(SetBGMVolume);
+        }
+
     }
+
+    private void Start()
+    {
+        PlayBGM("bgm01");
+    }
+
     private void LoadAudio()
     {
         for (int i = 0; i < cacheAudioClipList.Count; i++)
@@ -149,6 +164,20 @@ public class SoundManager : MonoBehaviour
         bgmAudio.Pause();
     }
 
+    bool isplay = true;
+
+    public void BGMOnOff()
+    {
+        isplay = !isplay;
+        if (isplay)
+        {
+            PlayBGM("bgm01");
+        }
+        else
+        {
+            Instance.StopBGM();
+        }
+    }
 }
 
 

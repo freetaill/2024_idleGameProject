@@ -24,7 +24,7 @@ public class GuideQuestManager : MonoBehaviour
     void Update()
     {
         // 실시간으로 골드 수를 업데이트하여 퀘스트 달성 여부를 확인
-        //currentGold = GameManager.Instance.CompareValue(GameManager.Instance.gold, questGoals[currentQuestIndex]);
+        currentGold = GameManager.Instance.CompareValue(GameManager.Instance.gold, questGoals[currentQuestIndex]);
 
         if (currentGold >= questGoals[currentQuestIndex] && !isQuestCompleted)
         {
