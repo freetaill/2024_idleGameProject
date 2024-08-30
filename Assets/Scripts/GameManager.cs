@@ -720,6 +720,8 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeChurch2Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(church2) + "/s";
+
+        churchImage.sprite = churchImgs[1];
     }
     public void OnButtonClickChurch3()
     {
@@ -743,7 +745,7 @@ public class GameManager : MonoBehaviour
 
         //교회2 없애기
         BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.SetActive(false);
-        churchImage.sprite = churchImgs[1];
+        churchImage.sprite = churchImgs[2];
     }
     public void OnButtonClickStone1()
     {
