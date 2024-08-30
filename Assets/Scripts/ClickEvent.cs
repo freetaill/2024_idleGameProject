@@ -14,6 +14,7 @@ public class ClickEvent : MonoBehaviour
     // 만약 마우스 클릭 시점에 아무것도 없다면 화면 좌우 이동 및 확대 축소 수행
     // 만약 마우스 클릭 이후 일정 시간 내에 한번 더 클릭이 수행된다면 더블 클릭 이벤트 수행
 
+    public GameObject touchEffectPrefab; // 터치된 위치에 나타날 이펙트 프리팹
     public Camera mainCamera; // 메인 카메라, 필요 시 인스펙터에서 할당
     private float doubleClickTimeLimit = 0.25f; // 더블 클릭 감지 시간 제한
     private float lastClickTime = -1; // 마지막 클릭 시간을 기록
@@ -51,6 +52,8 @@ public class ClickEvent : MonoBehaviour
         {
             Vector2 mouseWorldPosition2D = new Vector2(worldPosition.x, worldPosition.y);
             RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition2D, Vector2.zero); // 2D 레이캐스트 사용
+            // 이펙트 프리팹 생성
+            Instantiate(touchEffectPrefab, worldPosition, Quaternion.identity);
 
             if (hit.collider != null)
             {
