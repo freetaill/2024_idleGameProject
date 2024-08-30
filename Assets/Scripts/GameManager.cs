@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //SaveGameData();
+        SaveGameData();
         Labor = new int[27];
         isLoading = true;
         LoadGameData();
@@ -332,11 +332,11 @@ public class GameManager : MonoBehaviour
         for(int idx = 0;idx<targetArray.Length-1 && targetArray[idx]!=0;idx++)
         {
             int rest;
-            if (targetArray[idx] >= 10000)
+            if (targetArray[idx] >= 100000)
             {
                 //변수에 일단 저장
-                rest = targetArray[idx]/10000;
-                targetArray[idx]%=10000;
+                rest = targetArray[idx]/100000;
+                targetArray[idx]%=100000;
                 //다음 배열에 저장해줌
                 targetArray[idx+1]+=rest;
             }
@@ -360,7 +360,6 @@ public class GameManager : MonoBehaviour
         // for문에서 걸리지 않았다면 같으므로
         return 0;
     }
-
     public int CompareValue(int[] A,int value)
     {
         if (A.Length > 0 && A[0] > value)
@@ -371,11 +370,11 @@ public class GameManager : MonoBehaviour
             return 0;
         int idx = 1;
         int amount = 1;
-        while(value >= 10000)
+        while(value >= 100000)
         {
-            value/=10000;
+            value/=100000;
             idx++;
-            amount*=10000;
+            amount*=100000;
         }
         if (A.Length > idx)
             return 1;
@@ -408,7 +407,7 @@ public class GameManager : MonoBehaviour
             targetArray[idx]-=SubValue;
             if (targetArray[idx] < SubArray[idx])
             {
-                targetArray[idx] = 10000 + targetArray[idx]-SubArray[idx];
+                targetArray[idx] = 100000 + targetArray[idx]-SubArray[idx];
                 SubValue = 1;
             }
             else
@@ -437,7 +436,7 @@ public class GameManager : MonoBehaviour
                 targetArray[idx]-=SubValue;
                 return true;
             }
-            targetArray[idx] = 10000 + targetArray[idx]-SubValue;
+            targetArray[idx] = 100000 + targetArray[idx]-SubValue;
             //앞에서 땡겨올 거
             SubValue = 1;
             idx++;
@@ -669,6 +668,18 @@ public class GameManager : MonoBehaviour
     }
 
     // 빌딩 -> 빌딩은 생산력으로 살 수 있음
+
+    public SpriteRenderer churchImage;
+    public Sprite[] churchImgs;
+    public SpriteRenderer houseImage;
+    public Sprite[] houseImgs;
+    public SpriteRenderer stoneImage;
+    public Sprite[] stoneImgs;
+    public SpriteRenderer catstoneImage;
+    public Sprite[] catstoneImgs;
+    public SpriteRenderer statueImage;
+    public Sprite[] statueImgs;
+
     public void OnButtonClickHut()
     {
         if (SubValue(Labor,UpgradeHutCost) == false)
@@ -691,6 +702,7 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonClickChurch2()
     {
+        //조건이 맞는지 확인
         if (CompareValue(beliver,100) == -1 || SubValue(Labor,UpgradeChurch2Cost) == false)
             Debug.Log("노동력 부족");
         else
@@ -728,6 +740,10 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeChurch3Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(church3) + "/s";
+
+        //교회2 없애기
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.SetActive(false);
+        churchImage.sprite = churchImgs[1];
     }
     public void OnButtonClickStone1()
     {
@@ -768,6 +784,10 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeStone1Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(stone2) + "/s";
+
+        //캣스톤1 없애기
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(3).gameObject.SetActive(false);
+        stoneImage.sprite = stoneImgs[1];
     }
     public void OnButtonClickStone3()
     {
@@ -788,6 +808,10 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeStone3Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(stone3) + "/s";
+
+        //캣스톤2 없애기
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(4).gameObject.SetActive(false);
+        stoneImage.sprite = stoneImgs[2];
     }
     public void OnButtonClickHouse1()
     {
@@ -828,6 +852,10 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeHouse2Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(house2) + "/s";
+
+        //집1 없애기
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(6).gameObject.SetActive(false);
+        houseImage.sprite = houseImgs[1];
     }
     public void OnButtonClickHouse3()
     {
@@ -848,6 +876,10 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeHouse3Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(house3) + "/s";
+
+        //집1 없애기
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(7).gameObject.SetActive(false);
+        houseImage.sprite = houseImgs[2];
     }
     public void OnButtonClickCatStone1()
     {
@@ -888,6 +920,10 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeCatStone2Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(catstone2) + "/s";
+
+                //캣스톤 없애기
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(9).gameObject.SetActive(false);
+        catstoneImage.sprite = catstoneImgs[1];
     }
         public void OnButtonClickCatStone3()
     {
@@ -908,6 +944,10 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeCatStone3Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(catstone3) + "/s";
+
+        //캣스톤 없애기
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(10).gameObject.SetActive(false);
+        catstoneImage.sprite = catstoneImgs[2];
     }
     public void OnButtonClickStatue1()
     {
@@ -948,6 +988,10 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeStatue2Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(statue2) + "/s";
+
+        //캣스톤 없애기
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(12).gameObject.SetActive(false);
+        statueImage.sprite = statueImgs[1];
     }
     public void OnButtonClickStatue3()
     {
@@ -968,6 +1012,10 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeStatue3Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(statue3) + "/s";
+
+        // 없애기
+        BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(13).gameObject.SetActive(false);
+        statueImage.sprite = statueImgs[2];
     }
     
     public void OnButtonClickLabor()
@@ -1194,4 +1242,3 @@ public void LoadGameData()
         return intArray;
     }
 }
-    
