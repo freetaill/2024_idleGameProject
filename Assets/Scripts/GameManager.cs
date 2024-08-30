@@ -157,6 +157,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        //SaveGameData();
         Labor = new int[27];
         isLoading = true;
         LoadGameData();
@@ -331,11 +332,11 @@ public class GameManager : MonoBehaviour
         for(int idx = 0;idx<targetArray.Length-1 && targetArray[idx]!=0;idx++)
         {
             int rest;
-            if (targetArray[idx] >= 100000)
+            if (targetArray[idx] >= 10000)
             {
                 //변수에 일단 저장
-                rest = targetArray[idx]/100000;
-                targetArray[idx]%=100000;
+                rest = targetArray[idx]/10000;
+                targetArray[idx]%=10000;
                 //다음 배열에 저장해줌
                 targetArray[idx+1]+=rest;
             }
@@ -359,6 +360,7 @@ public class GameManager : MonoBehaviour
         // for문에서 걸리지 않았다면 같으므로
         return 0;
     }
+
     public int CompareValue(int[] A,int value)
     {
         if (A.Length > 0 && A[0] > value)
@@ -369,11 +371,11 @@ public class GameManager : MonoBehaviour
             return 0;
         int idx = 1;
         int amount = 1;
-        while(value >= 100000)
+        while(value >= 10000)
         {
-            value/=100000;
+            value/=10000;
             idx++;
-            amount*=100000;
+            amount*=10000;
         }
         if (A.Length > idx)
             return 1;
@@ -406,7 +408,7 @@ public class GameManager : MonoBehaviour
             targetArray[idx]-=SubValue;
             if (targetArray[idx] < SubArray[idx])
             {
-                targetArray[idx] = 100000 + targetArray[idx]-SubArray[idx];
+                targetArray[idx] = 10000 + targetArray[idx]-SubArray[idx];
                 SubValue = 1;
             }
             else
@@ -435,7 +437,7 @@ public class GameManager : MonoBehaviour
                 targetArray[idx]-=SubValue;
                 return true;
             }
-            targetArray[idx] = 100000 + targetArray[idx]-SubValue;
+            targetArray[idx] = 10000 + targetArray[idx]-SubValue;
             //앞에서 땡겨올 거
             SubValue = 1;
             idx++;
