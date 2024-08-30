@@ -95,6 +95,9 @@ public class GameManager : MonoBehaviour
     //게임 오브젝트
     public TextMeshProUGUI goldText;
     public TextMeshProUGUI beliverText;
+    public TextMeshProUGUI treeText;
+    public TextMeshProUGUI rockText;
+    public TextMeshProUGUI breadText;
 
     public GameObject ResourcePanel;
     public GameObject MissionaryPanel;
@@ -194,6 +197,9 @@ public class GameManager : MonoBehaviour
                 }
                 goldText.text = SetText(gold);
                 beliverText.text = SetText(beliver);
+                treeText.text = SetText(tree);
+                breadText.text = SetText(bread);
+                rockText.text = SetText(rock);
 
                 timer = 0f;
             }
@@ -210,6 +216,11 @@ public class GameManager : MonoBehaviour
     // 화면에 표시되는 재화, 인구수 설정 함수
     public void SetUIText()
     {
+        goldText.text = SetText(gold);
+        beliverText.text = SetText(beliver);
+        treeText.text = SetText(tree);
+        breadText.text = SetText(bread);
+        rockText.text = SetText(rock);
 
         //바위 비용
         ResourcePanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "X " + SetText(UpgradeRockCost);

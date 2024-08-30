@@ -337,6 +337,9 @@ MonoBehaviour:
   UpgradeLaborCost: 
   goldText: {fileID: 209056628}
   beliverText: {fileID: 838630729}
+  treeText: {fileID: 244718224}
+  rockText: {fileID: 930489381}
+  breadText: {fileID: 1215891117}
   ResourcePanel: {fileID: 1648802469}
   MissionaryPanel: {fileID: 1355346527}
   BuildingPanel: {fileID: 2128326835}
