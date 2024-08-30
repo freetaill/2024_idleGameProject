@@ -13,7 +13,7 @@ public class GuideQuestManager : MonoBehaviour
     private bool isQuestCompleted = false; // 현재 퀘스트 완료 여부
 
     // 퀘스트 목표 목록 (순차적으로 진행)
-    private long[] questGoals = { 1000, 5000, 10000, 20000, 50000 };
+    private int[] questGoals = { 1000, 5000, 10000, 20000, 50000 };
 
     void Start()
     {
@@ -24,7 +24,7 @@ public class GuideQuestManager : MonoBehaviour
     void Update()
     {
         // 실시간으로 골드 수를 업데이트하여 퀘스트 달성 여부를 확인
-        currentGold = GameManager.Instance.GetGold();
+        //currentGold = GameManager.Instance.CompareValue(GameManager.Instance.gold, questGoals[currentQuestIndex]);
 
         if (currentGold >= questGoals[currentQuestIndex] && !isQuestCompleted)
         {
