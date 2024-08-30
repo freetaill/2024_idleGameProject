@@ -157,8 +157,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        SoundManager.Instance.StopBGM();
         SaveGameData();
-        Labor = new int[27];
         isLoading = true;
         LoadGameData();
         //텍스트 업로드
@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour
             if (timer >= 10f)
             {
                 //초에 따라서 골드 얻기
-                //AddValue(gold,GoldGetAmount);
+                AddValue(gold,GoldGetAmount);
 
                 //초당 신도수 더해주기
                 AddValue(beliver,beliverGetTime);
@@ -187,7 +187,7 @@ public class GameManager : MonoBehaviour
                 {
                     for(int j = 0;j<beliver[i];j++)
                     {
-                        //AddValue(gold,beliverGetGold);
+                        AddValue(gold,beliverGetGold);
                     }
                 }
                 goldText.text = SetText(gold);
@@ -470,7 +470,10 @@ public class GameManager : MonoBehaviour
     public void OnButtonClickRock()
     {
         if (SubValue(gold,UpgradeRockCost) == false)
+        {
             Debug.Log("골드 부족");
+            return;
+        }
         else 
         {
             //배열끼리 더하기
@@ -478,6 +481,7 @@ public class GameManager : MonoBehaviour
 
             //배열과 숫자 더하기
             AddValue(UpgradeRockCost,UpgradeRockCost[0]);
+            SoundManager.Instance.Play("pop1");
         }
 
         //ResourcePanel 의 ViewPort -> Content -> Panel -> Button
@@ -495,7 +499,10 @@ public class GameManager : MonoBehaviour
     public void OnButtonClickTree()
     {
         if (SubValue(gold,UpgradeTreeCost) == false)
+        {
             Debug.Log("골드 부족");
+            return;
+        }
         else
         {
             AddValue(tree,UpgradeTreeCost);
@@ -509,12 +516,16 @@ public class GameManager : MonoBehaviour
         CostText.text = "X " + SetText(UpgradeTreeCost);
 
         AmountText.text = "재화 획득 : " + SetText(tree);
+        SoundManager.Instance.Play("pop1");
     }
 
     public void OnButtonClickBread()
     {
         if (SubValue(gold,UpgradeBreadCost) == false)
+        {
             Debug.Log("골드 부족");
+            return;
+        }
         else
         {
             AddValue(bread,UpgradeBreadCost);
@@ -529,13 +540,17 @@ public class GameManager : MonoBehaviour
         CostText.text = "X " + SetText(UpgradeBreadCost);
 
         AmountText.text = "재화 획득 : " + SetText(bread);
+        SoundManager.Instance.Play("pop1");
     }
     
     //선교사는 골드로 살 수 있음
     public void OnButtonClickMissionary()
     {
         if (SubValue(gold,UpgradeMissionaryCost) == false)
+        {
             Debug.Log("골드 부족");
+            return;
+        }
         else
         {
             //초당 신도수 증가율을 높여주기
@@ -556,12 +571,16 @@ public class GameManager : MonoBehaviour
         CostText.text = "X " + SetText(UpgradeMissionaryCost);
 
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(missionary) + "/s";
+        SoundManager.Instance.Play("holyCelebration02");
     
     }
     public void OnButtonClickFanatic()
     {
         if (SubValue(gold,UpgradeFanaticCost) == false)
+        {
             Debug.Log("골드 부족");
+            return;
+        }
         else
         {
             //초당 신도수 증가율을 높여주기
@@ -582,6 +601,7 @@ public class GameManager : MonoBehaviour
         CostText.text = "X " + SetText(UpgradeFanaticCost);
 
         AmountText.text = "초당 신도수 : "  + SetText(fanatic) + "/s";
+        SoundManager.Instance.Play("holyCelebration02");
 
     }
 
@@ -589,7 +609,11 @@ public class GameManager : MonoBehaviour
     public void OnButtonClickCardinal()
     {
         if (SubValue(gold,UpgradeCardinalCost) == false)
+        {
             Debug.Log("골드 부족");
+            return;
+        }
+            
         else
         {
             //초당 신도수 증가율을 높여주기
@@ -610,13 +634,17 @@ public class GameManager : MonoBehaviour
         CostText.text = "X " + SetText(UpgradeCardinalCost);
 
         AmountText.text = "초당 신도수 : "  + SetText(cardinal) + "/s";
+        SoundManager.Instance.Play("holyCelebration02");
 
     }
     //메시아
     public void OnButtonClickMessia()
     {
         if (SubValue(gold,UpgradeMessiaCost) == false)
+        {
             Debug.Log("골드 부족");
+            return;
+        }
         else
         {
             //초당 신도수 증가율을 높여주기
@@ -637,13 +665,17 @@ public class GameManager : MonoBehaviour
         CostText.text = "X " + SetText(UpgradeMessiaCost);
 
         AmountText.text = "초당 신도수 : "  + SetText(messia) + "/s";
+        SoundManager.Instance.Play("holyCelebration02");
 
     }
     //달빛치료사
     public void OnButtonClickdocter()
     {
         if (SubValue(gold,UpgradeDoctorCost) == false)
+        {
             Debug.Log("골드 부족");
+            return;
+        }
         else
         {
             //초당 신도수 증가율을 높여주기
@@ -664,6 +696,7 @@ public class GameManager : MonoBehaviour
         CostText.text = "X " + SetText(UpgradeDoctorCost);
 
         AmountText.text = "초당 신도수 : " + SetText(doctor) + "/s";
+        SoundManager.Instance.Play("holyCelebration02");
 
     }
 
@@ -683,7 +716,10 @@ public class GameManager : MonoBehaviour
     public void OnButtonClickHut()
     {
         if (SubValue(Labor,UpgradeHutCost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,hut);
@@ -699,12 +735,16 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeHutCost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(hut) + "/s";
+        
     }
     public void OnButtonClickChurch2()
     {
         //조건이 맞는지 확인
         if (CompareValue(beliver,100) == -1 || SubValue(Labor,UpgradeChurch2Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,church2);
@@ -722,11 +762,15 @@ public class GameManager : MonoBehaviour
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(church2) + "/s";
 
         churchImage.sprite = churchImgs[1];
+        SoundManager.Instance.Play("holyCelebration02");
     }
     public void OnButtonClickChurch3()
     {
         if (CompareValue(beliver,1000) == -1 || SubValue(Labor,UpgradeChurch3Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,church3);
@@ -743,14 +787,19 @@ public class GameManager : MonoBehaviour
         CostText.text = "X " + SetText(UpgradeChurch3Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(church3) + "/s";
 
+
         //교회2 없애기
         BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.SetActive(false);
         churchImage.sprite = churchImgs[2];
+        SoundManager.Instance.Play("holyCelebration02");
     }
     public void OnButtonClickStone1()
     {
         if (CompareValue(beliver,2000) == -1 || SubValue(Labor,UpgradeStone1Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,stone1);
@@ -766,11 +815,16 @@ public class GameManager : MonoBehaviour
         //이제 텍스트 변경
         CostText.text = "X " + SetText(UpgradeStone1Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(stone1) + "/s";
+
+        SoundManager.Instance.Play("construction02");
     }
     public void OnButtonClickStone2()
     {
         if (CompareValue(beliver,4000) == -1 || SubValue(Labor,UpgradeStone2Cost) == false)
-            Debug.Log("노동력 부족");
+            {
+                Debug.Log("노동력 부족");
+                return;
+            }
         else
         {
             AddValue(beliverGetGold,stone2);
@@ -787,14 +841,20 @@ public class GameManager : MonoBehaviour
         CostText.text = "X " + SetText(UpgradeStone1Cost);
         AmountText.text = "신도 수당 골드 획득량 : " + SetText(stone2) + "/s";
 
+        SoundManager.Instance.Play("construction02");
+
         //캣스톤1 없애기
         BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(3).gameObject.SetActive(false);
         stoneImage.sprite = stoneImgs[1];
+        SoundManager.Instance.Play("construction02");
     }
     public void OnButtonClickStone3()
     {
         if (CompareValue(beliver,8000) == -1 || SubValue(Labor,UpgradeStone3Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,stone3);
@@ -814,11 +874,15 @@ public class GameManager : MonoBehaviour
         //캣스톤2 없애기
         BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(4).gameObject.SetActive(false);
         stoneImage.sprite = stoneImgs[2];
+        SoundManager.Instance.Play("construction02");
     }
     public void OnButtonClickHouse1()
     {
         if (CompareValue(beliver,16000) == -1 || SubValue(Labor,UpgradeHouse1Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,house1);
@@ -838,7 +902,10 @@ public class GameManager : MonoBehaviour
     public void OnButtonClickHouse2()
     {
         if (CompareValue(beliver,32000) == -1 || SubValue(Labor,UpgradeHouse2Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,house2);
@@ -858,11 +925,15 @@ public class GameManager : MonoBehaviour
         //집1 없애기
         BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(6).gameObject.SetActive(false);
         houseImage.sprite = houseImgs[1];
+        SoundManager.Instance.Play("holyCelebration02");
     }
     public void OnButtonClickHouse3()
     {
         if (CompareValue(beliver,64000) == -1 || SubValue(Labor,UpgradeHouse1Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,house3);
@@ -882,11 +953,15 @@ public class GameManager : MonoBehaviour
         //집1 없애기
         BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(7).gameObject.SetActive(false);
         houseImage.sprite = houseImgs[2];
+        SoundManager.Instance.Play("holyCelebration02");
     }
     public void OnButtonClickCatStone1()
     {
         if (CompareValue(beliver,128000) == -1 || SubValue(Labor,UpgradeCatStone1Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,catstone1);
@@ -906,7 +981,10 @@ public class GameManager : MonoBehaviour
     public void OnButtonClickCatStone2()
     {
         if (CompareValue(beliver,256000) == -1 || SubValue(Labor,UpgradeCatStone2Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,catstone2);
@@ -926,11 +1004,15 @@ public class GameManager : MonoBehaviour
                 //캣스톤 없애기
         BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(9).gameObject.SetActive(false);
         catstoneImage.sprite = catstoneImgs[1];
+        SoundManager.Instance.Play("construction02");
     }
         public void OnButtonClickCatStone3()
     {
         if (CompareValue(beliver,512000) == -1 || SubValue(Labor,UpgradeCatStone3Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,catstone3);
@@ -950,11 +1032,15 @@ public class GameManager : MonoBehaviour
         //캣스톤 없애기
         BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(10).gameObject.SetActive(false);
         catstoneImage.sprite = catstoneImgs[2];
+        SoundManager.Instance.Play("construction02");
     }
     public void OnButtonClickStatue1()
     {
         if (CompareValue(beliver,1024000) == -1 || SubValue(Labor,UpgradeStatue1Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,statue1);
@@ -974,7 +1060,10 @@ public class GameManager : MonoBehaviour
         public void OnButtonClickStatue2()
     {
         if (CompareValue(beliver,2048000) == -1 || SubValue(Labor,UpgradeStatue2Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,statue2);
@@ -994,11 +1083,15 @@ public class GameManager : MonoBehaviour
         //캣스톤 없애기
         BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(12).gameObject.SetActive(false);
         statueImage.sprite = statueImgs[1];
+        SoundManager.Instance.Play("construction02");
     }
     public void OnButtonClickStatue3()
     {
         if (CompareValue(beliver,5012000) == -1 || SubValue(Labor,UpgradeStatue3Cost) == false)
+        {
             Debug.Log("노동력 부족");
+            return;
+        }
         else
         {
             AddValue(beliverGetGold,statue3);
@@ -1018,12 +1111,16 @@ public class GameManager : MonoBehaviour
         // 없애기
         BuildingPanel.transform.GetChild(0).GetChild(0).GetChild(13).gameObject.SetActive(false);
         statueImage.sprite = statueImgs[2];
+        SoundManager.Instance.Play("construction02");
     }
     
     public void OnButtonClickLabor()
     {
         if (CompareValue(rock,UpgradeLaborCost) == -1 || CompareValue(tree,UpgradeLaborCost) == -1  || CompareValue(bread,UpgradeLaborCost) == -1 )
+        {
             Debug.Log("재료 부족");
+            return;
+        }
         else
         {
             AddValue(Labor,random.Next() * (100000 - 20) + 20);

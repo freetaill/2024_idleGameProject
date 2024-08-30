@@ -149,5 +149,6 @@ public class Weapon : MonoBehaviour
     public void OnClickGetButtion()
     {
         transform.GetChild(4).gameObject.SetActive(false);
+        SoundManager.Instance.Play("pop1");
     }
 }

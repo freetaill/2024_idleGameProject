@@ -129,10 +129,12 @@ public class Roulette : MonoBehaviour
             }
             else
                 Rotate();
+            SoundManager.Instance.Play("whick03");
         }
     }
     public void OnClickGetButtion()
     {
         ResultPanel.SetActive(false);
+        SoundManager.Instance.Play("pop1");
     }
 }
